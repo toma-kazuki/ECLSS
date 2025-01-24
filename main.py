@@ -16,6 +16,30 @@ MONITOR_RANGES = {
     "temperature": {"min": 18, "max": 26},  # °C
 }
 
+# Define failure scenarios (easily configurable)
+FAILURE_SCENARIOS = [
+    {
+        "subsystem": "CDRS",           # Subsystem to fail
+        "failure_step": 2000,            # Time step when the failure occurs
+        "recovery_step": 10000,           # Time step when the subsystem recovers (None if not recoverable)
+        "failure_mode": "off",         # Failure mode: 'off' (completely stop) or 'reduced' (partial degradation)
+        "reduction_factor": 0.0,       # Reduction factor (used only if failure_mode is 'reduced')
+    },
+    # Add additional failure scenarios as needed
+    # {
+    #     "subsystem": "OGS",
+    #     "failure_step": 50,
+    #     "recovery_step": 80,
+    #     "failure_mode": "reduced",
+    #     "reduction_factor": 0.5,
+    # },
+]
+
+# Simulate over time
+time_steps = 10000
+history = {"ppO2": [], "ppCO2": [], "water": [], "temperature": []}
+status_history = {"OGS": [], "CDRS": [], "WRS": [], "TCS": []}
+
 # Define initial parameters of the cabin atmosphere and subsystems
 cabin = {
     "ppO2": 21.0,  # Partial pressure of O2 (kPa)
@@ -45,6 +69,28 @@ MOLAR_MASS_CO2 = 44.0  # g/mol for CO2
 MOLAR_VOLUME = 22.4  # liters per mole at standard temperature and pressure
 CABIN_VOLUME = 100.0  # cubic meters, total cabin volume
 SECONDS_PER_DAY = 86400  # seconds in a day
+
+def apply_failures(subsystems, failure_scenarios, current_step):
+    """
+    Applies the configured failure scenarios to the subsystems at the given time step.
+    """
+    for scenario in failure_scenarios:
+        if current_step == scenario["failure_step"]:
+            # Apply the failure
+            print(f"Failure in {scenario['subsystem']} at step {current_step}.")
+            if scenario["failure_mode"] == "off":
+                subsystems[scenario["subsystem"]]["status"] = False
+            elif scenario["failure_mode"] == "reduced":
+                subsystems[scenario["subsystem"]]["CO2_removal_rate"] *= scenario["reduction_factor"]
+
+        if scenario["recovery_step"] is not None and current_step == scenario["recovery_step"]:
+            # Recover the subsystem
+            print(f"Recovery of {scenario['subsystem']} at step {current_step}.")
+            subsystems[scenario["subsystem"]]["status"] = True
+            if scenario["failure_mode"] == "reduced":
+                subsystems[scenario["subsystem"]]["CO2_removal_rate"] = 0.00105  # Reset to default rate
+    return subsystems
+
 
 def human_respiration_effect(cabin, respiration, time_step=1):
     """
@@ -110,10 +156,13 @@ def check_limits_and_control(cabin, subsystems):
 
     return subsystems
 
-def simulate_step(cabin, subsystems, respiration, time_step=1):
+def simulate_step(cabin, subsystems, respiration, failure_scenarios, current_step, time_step=1):
     """
-    Simulates one time step in the ECLSS system.
+    Simulates one time step in the ECLSS system, applying failures and subsystem dynamics.
     """
+    # Apply failure scenarios at the current step
+    subsystems = apply_failures(subsystems, failure_scenarios, current_step)
+
     # Human respiration effects
     cabin = human_respiration_effect(cabin, respiration, time_step)
 
@@ -138,14 +187,9 @@ def simulate_step(cabin, subsystems, respiration, time_step=1):
 
     return cabin
 
-# Simulate over time
-time_steps = 10000
-history = {"ppO2": [], "ppCO2": [], "water": [], "temperature": []}
-status_history = {"OGS": [], "CDRS": [], "WRS": [], "TCS": []}
-
 for t in range(time_steps):
     subsystems = check_limits_and_control(cabin, subsystems)
-    cabin = simulate_step(cabin, subsystems, human_respiration, time_step=1)
+    cabin = simulate_step(cabin, subsystems, human_respiration, FAILURE_SCENARIOS, current_step=t, time_step=1)
     history["ppO2"].append(cabin["ppO2"])
     history["ppCO2"].append(cabin["ppCO2"])
     history["water"].append(cabin["water"])
