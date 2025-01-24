@@ -21,7 +21,7 @@ FAILURE_SCENARIOS = [
     {
         "subsystem": "CDRS",           # Subsystem to fail
         "failure_step": 2000,            # Time step when the failure occurs
-        "recovery_step": 10000,           # Time step when the subsystem recovers (None if not recoverable)
+        "recovery_step": 6000,           # Time step when the subsystem recovers (None if not recoverable)
         "failure_mode": "off",         # Failure mode: 'off' (completely stop) or 'reduced' (partial degradation)
         "reduction_factor": 0.0,       # Reduction factor (used only if failure_mode is 'reduced')
     },
@@ -75,20 +75,20 @@ def apply_failures(subsystems, failure_scenarios, current_step):
     Applies the configured failure scenarios to the subsystems at the given time step.
     """
     for scenario in failure_scenarios:
-        if current_step == scenario["failure_step"]:
-            # Apply the failure
-            print(f"Failure in {scenario['subsystem']} at step {current_step}.")
+        # Check if the current step is within the failure window
+        if scenario["failure_step"] <= current_step and (
+            scenario["recovery_step"] is None or current_step < scenario["recovery_step"]
+        ):
+            # Apply failure
             if scenario["failure_mode"] == "off":
                 subsystems[scenario["subsystem"]]["status"] = False
             elif scenario["failure_mode"] == "reduced":
                 subsystems[scenario["subsystem"]]["CO2_removal_rate"] *= scenario["reduction_factor"]
-
-        if scenario["recovery_step"] is not None and current_step == scenario["recovery_step"]:
-            # Recover the subsystem
-            print(f"Recovery of {scenario['subsystem']} at step {current_step}.")
+        elif scenario["recovery_step"] is not None and current_step == scenario["recovery_step"]:
+            # Recover subsystem
             subsystems[scenario["subsystem"]]["status"] = True
             if scenario["failure_mode"] == "reduced":
-                subsystems[scenario["subsystem"]]["CO2_removal_rate"] = 0.00105  # Reset to default rate
+                subsystems[scenario["subsystem"]]["CO2_removal_rate"] = 0.003  # Reset to default rate
     return subsystems
 
 
