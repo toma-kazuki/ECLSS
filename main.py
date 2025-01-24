@@ -1,6 +1,21 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+# Define control ranges (safe limits) for monitored parameters
+CONTROL_RANGES = {
+    "ppO2": {"min": 21.4, "max": 21.6},  # kPa
+    "ppCO2": {"min": 0.39, "max": 0.41},   # kPa
+    "water": {"min": 10, "max": 120},    # liters
+    "temperature": {"min": 18, "max": 26},  # °C
+}
+
+MONITOR_RANGES = {
+    "ppO2": {"min": 19.5, "max": 23.5},  # kPa
+    "ppCO2": {"min": 0.0, "max": 0.5},   # kPa
+    "water": {"min": 10, "max": 120},    # liters
+    "temperature": {"min": 18, "max": 26},  # °C
+}
+
 # Define initial parameters of the cabin atmosphere and subsystems
 cabin = {
     "ppO2": 21.0,  # Partial pressure of O2 (kPa)
@@ -11,7 +26,7 @@ cabin = {
 
 subsystems = {
     "OGS": {"O2_rate": 0.5, "water_consumption": 1.0, "status": True},  # moles O2/sec, liters water/sec
-    "CDRS": {"CO2_removal_rate": 0.03, "status": True},  # moles CO2/sec
+    "CDRS": {"CO2_removal_rate": 0.003, "status": True},  # moles CO2/sec
     "WRS": {"water_recovery_rate": 0.95, "status": True},  # Recovery efficiency (%)
     "TCS": {"temperature_stability": True, "deviation": 0.0, "status": True},  # temperature deviation (°C)
 }
@@ -75,22 +90,22 @@ def check_limits_and_control(cabin, subsystems):
     """
     Checks if subsystems need to be switched on/off based on parameter limits.
     """
-    # ppO2 limits (safe range: 19.5–23.5 kPa)
-    if cabin["ppO2"] > 23.5:
+    # ppO2 limits
+    if cabin["ppO2"] > CONTROL_RANGES["ppO2"]["max"]:
         subsystems["OGS"]["status"] = False  # Turn off OGS to stop generating O2
-    elif cabin["ppO2"] < 19.5:
+    elif cabin["ppO2"] < CONTROL_RANGES["ppO2"]["min"]:
         subsystems["OGS"]["status"] = True  # Turn on OGS if ppO2 drops too low
 
-    # ppCO2 limits (safe range: < 0.5 kPa)
-    if cabin["ppCO2"] > 0.5:
+    # ppCO2 limits
+    if cabin["ppCO2"] > CONTROL_RANGES["ppCO2"]["max"]:
         subsystems["CDRS"]["status"] = True  # Turn on CDRS to remove CO2
-    elif cabin["ppCO2"] < 0.3:
+    elif cabin["ppCO2"] < CONTROL_RANGES["ppCO2"]["min"]:
         subsystems["CDRS"]["status"] = False  # Turn off CDRS if CO2 is too low
 
-    # Water limits (prevent negative water)
-    if cabin["water"] < 10:
+    # Water limits
+    if cabin["water"] < CONTROL_RANGES["water"]["min"]:
         subsystems["WRS"]["status"] = True  # Turn on WRS to recover water
-    elif cabin["water"] > 120:
+    elif cabin["water"] > CONTROL_RANGES["water"]["max"]:
         subsystems["WRS"]["status"] = False  # Turn off WRS if water is abundant
 
     return subsystems
@@ -124,13 +139,13 @@ def simulate_step(cabin, subsystems, respiration, time_step=1):
     return cabin
 
 # Simulate over time
-time_steps = 1000
+time_steps = 10000
 history = {"ppO2": [], "ppCO2": [], "water": [], "temperature": []}
 status_history = {"OGS": [], "CDRS": [], "WRS": [], "TCS": []}
 
 for t in range(time_steps):
     subsystems = check_limits_and_control(cabin, subsystems)
-    cabin = simulate_step(cabivn, subsystems, human_respiration, time_step=1)
+    cabin = simulate_step(cabin, subsystems, human_respiration, time_step=1)
     history["ppO2"].append(cabin["ppO2"])
     history["ppCO2"].append(cabin["ppCO2"])
     history["water"].append(cabin["water"])
@@ -144,49 +159,53 @@ plt.figure(figsize=(12, 12))
 
 plt.subplot(3, 2, 1)
 plt.plot(history["ppO2"], label="ppO2 (kPa)")
-plt.axhline(19.5, color="r", linestyle="--", label="Minimum Safe ppO2")
-plt.axhline(23.5, color="r", linestyle="--", label="Maximum Safe ppO2")
+plt.axhline(CONTROL_RANGES["ppO2"]["min"], color="b", linestyle="--", label="Min Safe ppO2")
+plt.axhline(CONTROL_RANGES["ppO2"]["max"], color="b", linestyle="--", label="Max Safe ppO2")
+plt.axhline(MONITOR_RANGES["ppO2"]["min"], color="r", linestyle="--", label="Min Safe ppO2")
+plt.axhline(MONITOR_RANGES["ppO2"]["max"], color="r", linestyle="--", label="Max Safe ppO2")
 plt.title("Partial Pressure of O2")
-plt.xlabel("Time Steps")
+plt.xlabel("Time Steps [s]")
 plt.ylabel("kPa")
 plt.legend()
 
 plt.subplot(3, 2, 2)
 plt.plot(history["ppCO2"], label="ppCO2 (kPa)", color="orange")
-plt.axhline(0.3, color="r", linestyle="--", label="Minimum Safe ppCO2")
-plt.axhline(0.5, color="r", linestyle="--", label="Maximum Safe ppCO2")
+plt.axhline(CONTROL_RANGES["ppCO2"]["min"], color="b", linestyle="--", label="Min Control ppCO2")
+plt.axhline(CONTROL_RANGES["ppCO2"]["max"], color="b", linestyle="--", label="Max Control ppCO2")
+plt.axhline(MONITOR_RANGES["ppCO2"]["min"], color="r", linestyle="--", label="Min Safe ppCO2")
+plt.axhline(MONITOR_RANGES["ppCO2"]["max"], color="r", linestyle="--", label="Max Safe ppCO2")
 plt.title("Partial Pressure of CO2")
-plt.xlabel("Time Steps")
+plt.xlabel("Time Steps [s]")
 plt.ylabel("kPa")
 plt.legend()
 
 plt.subplot(3, 2, 3)
 plt.plot(history["water"], label="Water Available (liters)", color="blue")
-plt.axhline(10, color="r", linestyle="--", label="Minimum Water Level")
-plt.axhline(120, color="r", linestyle="--", label="Maximum Water Level")
+plt.axhline(MONITOR_RANGES["water"]["min"], color="r", linestyle="--", label="Min Safe Water")
+plt.axhline(MONITOR_RANGES["water"]["max"], color="r", linestyle="--", label="Max Safe Water")
 plt.title("Water Availability")
-plt.xlabel("Time Steps")
+plt.xlabel("Time Steps [s]")
 plt.ylabel("Liters")
 plt.legend()
 
 plt.subplot(3, 2, 4)
 plt.plot(status_history["OGS"], label="OGS Status (On/Off)", color="purple")
 plt.title("OGS Status")
-plt.xlabel("Time Steps")
+plt.xlabel("Time Steps [s]")
 plt.ylabel("On/Off")
 plt.legend()
 
 plt.subplot(3, 2, 5)
 plt.plot(status_history["CDRS"], label="CDRS Status (On/Off)", color="green")
 plt.title("CDRS Status")
-plt.xlabel("Time Steps")
+plt.xlabel("Time Steps [s]")
 plt.ylabel("On/Off")
 plt.legend()
 
 plt.subplot(3, 2, 6)
 plt.plot(status_history["WRS"], label="WRS Status (On/Off)", color="cyan")
 plt.title("WRS Status")
-plt.xlabel("Time Steps")
+plt.xlabel("Time Steps [s]")
 plt.ylabel("On/Off")
 plt.legend()
 
