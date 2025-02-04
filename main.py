@@ -205,18 +205,90 @@ def simulate_step(cabin, subsystems, respiration, failure_scenarios, current_ste
 
 # Function to save JSON data with a unique filename
 def create_json():
+    """Save simulation telemetry data with a specific structured format."""
     folder_path = os.path.join(os.getcwd(), "jsonfile")
     os.makedirs(folder_path, exist_ok=True)  # Ensure the directory exists
 
     # Generate a timestamped filename
-    #timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     file_name = f"sim_data.json"
     file_path = os.path.join(folder_path, file_name)
-        
+
+    # Convert ppO2 to the required format (assuming it's in kPa and needs to be in mmHg)
+    ppO2_mmHg = round(cabin["ppO2"] * 7.50062, 2)  # Conversion factor from kPa to mmHg
+
+    # Define parameter structure
+    habitat_status = {
+        "habitatStatus": {
+            "Parameters": [
+                {
+                    "SimulatedParameter": True,
+                    "DisplayName": "Cabin_ppO2",
+                    "DisplayValue": f"{ppO2_mmHg} mmHG",
+                    "Id": 43,
+                    "Name": "ppO2_test",
+                    "ParameterGroup": "L1_test",
+                    "NominalValue": 163.81,
+                    "UpperCautionLimit": 175.0,
+                    "UpperWarningLimit": 185.0,
+                    "LowerCautionLimit": 155.0,
+                    "LowerWarningLimit": 145.0,
+                    "Divisor": 100,
+                    "Unit": "mmHG",
+                    "SimValue": ppO2_mmHg,  # Example conversion (adjust as needed)
+                    "noise": 0.01,
+                    "currentValue": ppO2_mmHg,
+                    "CurrentValue": ppO2_mmHg,
+                    "simulationValue": ppO2_mmHg,
+                    "Status": {
+                        "LowerWarning": ppO2_mmHg < 145.0,
+                        "LowerCaution": ppO2_mmHg < 155.0,
+                        "Nominal": 155.0 <= ppO2_mmHg <= 175.0,
+                        "UpperCaution": ppO2_mmHg > 175.0,
+                        "UpperWarning": ppO2_mmHg > 185.0,
+                        "UnderLimit": ppO2_mmHg < 145.0,
+                        "OverLimit": ppO2_mmHg > 185.0,
+                        "Caution": ppO2_mmHg < 155.0 or ppO2_mmHg > 175.0,
+                        "Warning": ppO2_mmHg < 145.0 or ppO2_mmHg > 185.0
+                    },
+                    "HasDuplicationError": False,
+                    "DuplicationError": None
+                }
+            ],
+            "MasterStatus": {
+                "Caution": False,
+                "Warning": False
+            },
+            "HardwareList": [],
+            "SimulationList": [],
+            "Timestamp": datetime.now().strftime("MD %j %H:%M:%S")  # Mission day format
+        }
+    }
+
+    # Save the JSON file
     with open(file_path, "w", encoding="utf-8") as json_file:
-        json.dump(json_data, json_file, indent=4)  # Save JSON with formatting
+        json.dump(habitat_status, json_file, indent=4)
 
     print(f"JSON file saved at: {file_path}")
+
+    try:
+        # Read the JSON file
+        with open(file_path, 'r') as file:
+            json_data = json.load(file)  # Load JSON data from the file
+
+        # Make the POST request
+        response = requests.post(url, json=json_data)
+
+        # Print the response status and data
+        if response.status_code == 200:
+            print("Success:", response.json())
+        else:
+            print("Failed:", response.status_code)
+
+    except KeyboardInterrupt:
+        print("Stopped by user.")
+    except Exception as e:
+        print("An error occurred:", e)
 
 
 # Main simulation loop with controlled or unrestricted time steps
@@ -235,20 +307,9 @@ for t in range(time_steps):
     status_history["WRS"].append(subsystems["WRS"]["status"])
     status_history["TCS"].append(subsystems["TCS"]["status"])
 
-    # send to url
-    json_data["ppO2"].append(cabin["ppO2"])
-    json_data["ppCO2"].append(cabin["ppCO2"])
-    json_data["water"].append(cabin["water"])
-    json_data["OGS"].append(subsystems["OGS"]["status"])
-    json_data["CDRS"].append(subsystems["CDRS"]["status"])
-    json_data["WRS"].append(subsystems["WRS"]["status"])
-    json_data["TCS"].append(subsystems["TCS"]["status"])
-
     # Save telemetry data
     create_json()
     
-    json_data = {"ppO2": [], "ppCO2": [], "water": [], "temperature": [], "OGS": [], "CDRS": [], "WRS": [], "TCS": []}
-
     # Send data (uncomment when `post2url` function is defined)
     # post2url(jsonfile)
 
@@ -257,6 +318,29 @@ for t in range(time_steps):
         elapsed_time = time.time() - start_time
         sleep_time = max(0, (1.0 / simulation_speed) - elapsed_time)  # Ensure non-negative sleep time
         time.sleep(sleep_time)  # Pause before next timestep
+
+def post_json_to_url():
+    try:
+        # Read the JSON file
+        with open(json_file_path, 'r') as file:
+            json_data = json.load(file)  # Load JSON data from the file
+
+        # Make the POST request
+        response = requests.post(url, json=json_data)
+
+        # Print the response status and data
+        if response.status_code == 200:
+            print("Success:", response.json())
+        else:
+            print("Failed:", response.status_code)
+
+    except KeyboardInterrupt:
+        print("Stopped by user.")
+    except Exception as e:
+        print("An error occurred:", e)
+
+    
+
 
 save_json_file()
 # def post_json_continuously():

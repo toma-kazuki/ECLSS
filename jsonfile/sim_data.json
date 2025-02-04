@@ -1,24 +1,46 @@
 {
-    "ppO2": [
-        21.667916666666663
-    ],
-    "ppCO2": [
-        0.39345535353535377
-    ],
-    "water": [
-        93.99989583333345
-    ],
-    "temperature": [],
-    "OGS": [
-        false
-    ],
-    "CDRS": [
-        true
-    ],
-    "WRS": [
-        true
-    ],
-    "TCS": [
-        true
-    ]
+    "habitatStatus": {
+        "Parameters": [
+            {
+                "SimulatedParameter": true,
+                "DisplayName": "Cabin_ppO2",
+                "DisplayValue": "160.8 mmHG",
+                "Id": 43,
+                "Name": "ppO2_test",
+                "ParameterGroup": "L1_test",
+                "NominalValue": 163.81,
+                "UpperCautionLimit": 175.0,
+                "UpperWarningLimit": 185.0,
+                "LowerCautionLimit": 155.0,
+                "LowerWarningLimit": 145.0,
+                "Divisor": 100,
+                "Unit": "mmHG",
+                "SimValue": 160.8,
+                "noise": 0.01,
+                "currentValue": 160.8,
+                "CurrentValue": 160.8,
+                "simulationValue": 160.8,
+                "Status": {
+                    "LowerWarning": false,
+                    "LowerCaution": false,
+                    "Nominal": true,
+                    "UpperCaution": false,
+                    "UpperWarning": false,
+                    "UnderLimit": false,
+                    "OverLimit": false,
+                    "Caution": false,
+                    "Warning": false
+                },
+                "HasDuplicationError": false,
+                "DuplicationError": null
+            }
+        ],
+        "MasterStatus": {
+            "Caution": false,
+            "Warning": false
+        },
+        "HardwareList": [],
+        "SimulationList": [],
+        "Timestamp": "MD 035 17:05:52"
+    }
 }
