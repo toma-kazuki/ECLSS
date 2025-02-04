@@ -1,5 +1,20 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import requests
+import os
+import json
+import time
+from datetime import datetime
+# Simulation settings
+real_time_mode = True  # Set to False to run as fast as possible
+simulation_speed = 1.0  # 1.0 = real-time (1 second per step), 2.0 = 2x faster, etc.
+
+
+# File path to the JSON file
+json_file_path = 'temp.json'
+
+# URL to post to
+url = 'https://daphne-at-lab.selva-research.com/api/at/receiveHeraFeed'
 
 # Define control ranges (safe limits) for monitored parameters
 CONTROL_RANGES = {
@@ -37,6 +52,7 @@ FAILURE_SCENARIOS = [
 
 # Simulate over time
 time_steps = 10000
+json_data = {"ppO2": [], "ppCO2": [], "water": [], "temperature": [], "OGS": [], "CDRS": [], "WRS": [], "TCS": []}
 history = {"ppO2": [], "ppCO2": [], "water": [], "temperature": []}
 status_history = {"OGS": [], "CDRS": [], "WRS": [], "TCS": []}
 
@@ -187,9 +203,30 @@ def simulate_step(cabin, subsystems, respiration, failure_scenarios, current_ste
 
     return cabin
 
+# Function to save JSON data with a unique filename
+def create_json():
+    folder_path = os.path.join(os.getcwd(), "jsonfile")
+    os.makedirs(folder_path, exist_ok=True)  # Ensure the directory exists
+
+    # Generate a timestamped filename
+    #timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    file_name = f"sim_data.json"
+    file_path = os.path.join(folder_path, file_name)
+        
+    with open(file_path, "w", encoding="utf-8") as json_file:
+        json.dump(json_data, json_file, indent=4)  # Save JSON with formatting
+
+    print(f"JSON file saved at: {file_path}")
+
+
+# Main simulation loop with controlled or unrestricted time steps
 for t in range(time_steps):
+    start_time = time.time()  # Record start time of the timestep
+
     subsystems = check_limits_and_control(cabin, subsystems)
     cabin = simulate_step(cabin, subsystems, human_respiration, FAILURE_SCENARIOS, current_step=t, time_step=1)
+    
+    # Store history
     history["ppO2"].append(cabin["ppO2"])
     history["ppCO2"].append(cabin["ppCO2"])
     history["water"].append(cabin["water"])
@@ -198,60 +235,114 @@ for t in range(time_steps):
     status_history["WRS"].append(subsystems["WRS"]["status"])
     status_history["TCS"].append(subsystems["TCS"]["status"])
 
-# Plot results
-plt.figure(figsize=(12, 12))
+    # send to url
+    json_data["ppO2"].append(cabin["ppO2"])
+    json_data["ppCO2"].append(cabin["ppCO2"])
+    json_data["water"].append(cabin["water"])
+    json_data["OGS"].append(subsystems["OGS"]["status"])
+    json_data["CDRS"].append(subsystems["CDRS"]["status"])
+    json_data["WRS"].append(subsystems["WRS"]["status"])
+    json_data["TCS"].append(subsystems["TCS"]["status"])
 
-plt.subplot(3, 2, 1)
-plt.plot(history["ppO2"], label="ppO2 (kPa)")
-plt.axhline(CONTROL_RANGES["ppO2"]["min"], color="b", linestyle="--", label="Min Safe ppO2")
-plt.axhline(CONTROL_RANGES["ppO2"]["max"], color="b", linestyle="--", label="Max Safe ppO2")
-plt.axhline(MONITOR_RANGES["ppO2"]["min"], color="r", linestyle="--", label="Min Safe ppO2")
-plt.axhline(MONITOR_RANGES["ppO2"]["max"], color="r", linestyle="--", label="Max Safe ppO2")
-plt.title("Partial Pressure of O2")
-plt.xlabel("Time Steps [s]")
-plt.ylabel("kPa")
-plt.legend()
+    # Save telemetry data
+    create_json()
+    
+    json_data = {"ppO2": [], "ppCO2": [], "water": [], "temperature": [], "OGS": [], "CDRS": [], "WRS": [], "TCS": []}
 
-plt.subplot(3, 2, 2)
-plt.plot(history["ppCO2"], label="ppCO2 (kPa)", color="orange")
-plt.axhline(CONTROL_RANGES["ppCO2"]["min"], color="b", linestyle="--", label="Min Control ppCO2")
-plt.axhline(CONTROL_RANGES["ppCO2"]["max"], color="b", linestyle="--", label="Max Control ppCO2")
-plt.axhline(MONITOR_RANGES["ppCO2"]["min"], color="r", linestyle="--", label="Min Safe ppCO2")
-plt.axhline(MONITOR_RANGES["ppCO2"]["max"], color="r", linestyle="--", label="Max Safe ppCO2")
-plt.title("Partial Pressure of CO2")
-plt.xlabel("Time Steps [s]")
-plt.ylabel("kPa")
-plt.legend()
+    # Send data (uncomment when `post2url` function is defined)
+    # post2url(jsonfile)
 
-plt.subplot(3, 2, 3)
-plt.plot(history["water"], label="Water Available (liters)", color="blue")
-plt.axhline(MONITOR_RANGES["water"]["min"], color="r", linestyle="--", label="Min Safe Water")
-plt.axhline(MONITOR_RANGES["water"]["max"], color="r", linestyle="--", label="Max Safe Water")
-plt.title("Water Availability")
-plt.xlabel("Time Steps [s]")
-plt.ylabel("Liters")
-plt.legend()
+    # Control execution speed if real_time_mode is enabled
+    if real_time_mode:
+        elapsed_time = time.time() - start_time
+        sleep_time = max(0, (1.0 / simulation_speed) - elapsed_time)  # Ensure non-negative sleep time
+        time.sleep(sleep_time)  # Pause before next timestep
 
-plt.subplot(3, 2, 4)
-plt.plot(status_history["OGS"], label="OGS Status (On/Off)", color="purple")
-plt.title("OGS Status")
-plt.xlabel("Time Steps [s]")
-plt.ylabel("On/Off")
-plt.legend()
+save_json_file()
+# def post_json_continuously():
+#     try:
+#         while True:
+#             # Read the JSON file
+#             with open(json_file_path, 'r') as file:
+#                 json_data = json.load(file)  # Load JSON data from the file
 
-plt.subplot(3, 2, 5)
-plt.plot(status_history["CDRS"], label="CDRS Status (On/Off)", color="green")
-plt.title("CDRS Status")
-plt.xlabel("Time Steps [s]")
-plt.ylabel("On/Off")
-plt.legend()
+#             # Make the POST request
+#             response = requests.post(url, json=json_data)
 
-plt.subplot(3, 2, 6)
-plt.plot(status_history["WRS"], label="WRS Status (On/Off)", color="cyan")
-plt.title("WRS Status")
-plt.xlabel("Time Steps [s]")
-plt.ylabel("On/Off")
-plt.legend()
+#             # Print the response status and data
+#             if response.status_code == 200:
+#                 print("Success:", response.json())
+#             else:
+#                 print("Failed:", response.status_code)
 
-plt.tight_layout()
-plt.show()
+#             # Wait for 1 second before the next request
+#             time.sleep(1)
+
+#     except KeyboardInterrupt:
+#         print("Stopped by user.")
+#         plot_result()
+#     except Exception as e:
+#         print("An error occurred:", e)
+
+# # Start posting JSON data continuously
+# if __name__ == '__main__':
+#     post_json_continuously()
+
+# def plot_result():
+#     # Plot results
+#     plt.figure(figsize=(12, 12))
+
+#     plt.subplot(3, 2, 1)
+#     plt.plot(history["ppO2"], label="ppO2 (kPa)")
+#     plt.axhline(CONTROL_RANGES["ppO2"]["min"], color="b", linestyle="--", label="Min Safe ppO2")
+#     plt.axhline(CONTROL_RANGES["ppO2"]["max"], color="b", linestyle="--", label="Max Safe ppO2")
+#     plt.axhline(MONITOR_RANGES["ppO2"]["min"], color="r", linestyle="--", label="Min Safe ppO2")
+#     plt.axhline(MONITOR_RANGES["ppO2"]["max"], color="r", linestyle="--", label="Max Safe ppO2")
+#     plt.title("Partial Pressure of O2")
+#     plt.xlabel("Time Steps [s]")
+#     plt.ylabel("kPa")
+#     plt.legend()
+
+#     plt.subplot(3, 2, 2)
+#     plt.plot(history["ppCO2"], label="ppCO2 (kPa)", color="orange")
+#     plt.axhline(CONTROL_RANGES["ppCO2"]["min"], color="b", linestyle="--", label="Min Control ppCO2")
+#     plt.axhline(CONTROL_RANGES["ppCO2"]["max"], color="b", linestyle="--", label="Max Control ppCO2")
+#     plt.axhline(MONITOR_RANGES["ppCO2"]["min"], color="r", linestyle="--", label="Min Safe ppCO2")
+#     plt.axhline(MONITOR_RANGES["ppCO2"]["max"], color="r", linestyle="--", label="Max Safe ppCO2")
+#     plt.title("Partial Pressure of CO2")
+#     plt.xlabel("Time Steps [s]")
+#     plt.ylabel("kPa")
+#     plt.legend()
+
+#     plt.subplot(3, 2, 3)
+#     plt.plot(history["water"], label="Water Available (liters)", color="blue")
+#     plt.axhline(MONITOR_RANGES["water"]["min"], color="r", linestyle="--", label="Min Safe Water")
+#     plt.axhline(MONITOR_RANGES["water"]["max"], color="r", linestyle="--", label="Max Safe Water")
+#     plt.title("Water Availability")
+#     plt.xlabel("Time Steps [s]")
+#     plt.ylabel("Liters")
+#     plt.legend()
+
+#     plt.subplot(3, 2, 4)
+#     plt.plot(status_history["OGS"], label="OGS Status (On/Off)", color="purple")
+#     plt.title("OGS Status")
+#     plt.xlabel("Time Steps [s]")
+#     plt.ylabel("On/Off")
+#     plt.legend()
+
+#     plt.subplot(3, 2, 5)
+#     plt.plot(status_history["CDRS"], label="CDRS Status (On/Off)", color="green")
+#     plt.title("CDRS Status")
+#     plt.xlabel("Time Steps [s]")
+#     plt.ylabel("On/Off")
+#     plt.legend()
+
+#     plt.subplot(3, 2, 6)
+#     plt.plot(status_history["WRS"], label="WRS Status (On/Off)", color="cyan")
+#     plt.title("WRS Status")
+#     plt.xlabel("Time Steps [s]")
+#     plt.ylabel("On/Off")
+#     plt.legend()
+
+#     plt.tight_layout()
+#     plt.show()

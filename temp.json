@@ -1,0 +1,282 @@
+{"habitatStatus": {"Parameters": [
+    {"SimulatedParameter": true, "DisplayName": "2-butanull (Trace Contaminants)", "DisplayValue": "0.001 ppm", "Id": 10, "Name": "2-butanull", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.0, "UpperCautionLimit": 0.04, "UpperWarningLimit": 0.1, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 1000, "Unit": "ppm", "SimValue": 0.001, "noise": 0.001, "currentValue": 0.0, "CurrentValue": 0.0, "simulationValue": 0.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Acetaldehyde (Trace Contaminants)", "DisplayValue": "0.17 ppm", "Id": 11, "Name": "Acetaldehyde", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.17, "UpperCautionLimit": 0.28, "UpperWarningLimit": 0.4, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 1000, "Unit": "ppm", "SimValue": 0.17, "noise": 0.0, "currentValue": 0.17, "CurrentValue": 0.17, "simulationValue": 0.17, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Aux Cabin Fan (L1)", "DisplayValue": "3881 rpm", "Id": 79, "Name": "Aux Cabin Fan #1", "ParameterGroup": "L1", "NominalValue": 3880.0, "UpperCautionLimit": 3900.0, "UpperWarningLimit": 4000.0, "LowerCautionLimit": 3500.0, "LowerWarningLimit": 1500.0, "Divisor": 1, "Unit": "rpm", "SimValue": 3881.0, "noise": 1.0, "currentValue": 3880.0, "CurrentValue": 3880.0, "simulationValue": 3880.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Aux Cabin Fan #2 (L1)", "DisplayValue": "3879 rpm", "Id": 163, "Name": "Aux Cabin Fan #2", "ParameterGroup": "L1", "NominalValue": 3879.0, "UpperCautionLimit": 3900.0, "UpperWarningLimit": 4000.0, "LowerCautionLimit": 3500.0, "LowerWarningLimit": 1500.0, "Divisor": 1, "Unit": "rpm", "SimValue": 3879.0, "noise": 0.0, "currentValue": 3879.0, "CurrentValue": 3879.0, "simulationValue": 3879.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Cabin Temperature (L3)", "DisplayValue": "72 F", "Id": 157, "Name": "Cabin", "ParameterGroup": "L10", "NominalValue": 72.302, "UpperCautionLimit": 79.0, "UpperWarningLimit": 87.7, "LowerCautionLimit": 68.0, "LowerWarningLimit": 64.0, "Divisor": 1, "Unit": "F", "SimValue": 72.0, "noise": 0.0, "currentValue": 72.302, "CurrentValue": 72.302, "simulationValue": 72.302, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Cabin Temperature (L4)", "DisplayValue": "90 F", "Id": 158, "Name": "Cabin Temperature", "ParameterGroup": "L3", "NominalValue": 90.302, "UpperCautionLimit": 79.0, "UpperWarningLimit": 87.7, "LowerCautionLimit": 68.0, "LowerWarningLimit": 64.0, "Divisor": 1, "Unit": "F", "SimValue": 40.0, "noise": 1.0, "currentValue": 90.302, "CurrentValue": 90.302, "simulationValue": 90.302, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Dichloromethane (Trace Contaminants)", "DisplayValue": "0.05 ppm", "Id": 12, "Name": "Dichloromethane", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.05, "UpperCautionLimit": 0.1, "UpperWarningLimit": 0.16, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 1000, "Unit": "ppm", "SimValue": 0.05, "noise": 0.0, "currentValue": 0.05, "CurrentValue": 0.05, "simulationValue": 0.05, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "DMCPS (Trace Contaminants)", "DisplayValue": "1.43 ppm", "Id": 13, "Name": "DMCPS", "ParameterGroup": "Trace Contaminants", "NominalValue": 1.43, "UpperCautionLimit": 1.5, "UpperWarningLimit": 2.0, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 100, "Unit": "ppm", "SimValue": 1.43, "noise": 0.0, "currentValue": 1.43, "CurrentValue": 1.43, "simulationValue": 1.43, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Ethanol (Trace Contaminants)", "DisplayValue": "3.46 ppm", "Id": 14, "Name": "Ethanol", "ParameterGroup": "Trace Contaminants", "NominalValue": 3.45, "UpperCautionLimit": 3.75, "UpperWarningLimit": 4.0, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 100, "Unit": "ppm", "SimValue": 3.46, "noise": 0.01, "currentValue": 3.45, "CurrentValue": 3.45, "simulationValue": 3.45, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Ethyl Acetate (Trace Contaminants)", "DisplayValue": "0 ppm", "Id": 15, "Name": "Ethyl Acetate", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.03, "UpperCautionLimit": 0.15, "UpperWarningLimit": 0.2, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 10, "Unit": "ppm", "SimValue": 0.0, "noise": 0.0, "currentValue": 0.03, "CurrentValue": 0.03, "simulationValue": 0.03, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Fuel Cell #1 Current (Subfloor)", "DisplayValue": "60.2 amps", "Id": 175, "Name": "Fuel Cell #1 Current", "ParameterGroup": "Subfloor", "NominalValue": 60.2, "UpperCautionLimit": 68.0, "UpperWarningLimit": 75.0, "LowerCautionLimit": 55.0, "LowerWarningLimit": 48.0, "Divisor": 10, "Unit": "amps", "SimValue": 60.2, "noise": 0.0, "currentValue": 60.2, "CurrentValue": 60.2, "simulationValue": 60.2, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Fuel Cell #1 PQM (Subfloor)", "DisplayValue": "100 %", "Id": 173, "Name": "Fuel Cell #1 PQM", "ParameterGroup": "Subfloor", "NominalValue": 100.0, "UpperCautionLimit": 110.0, "UpperWarningLimit": 120.0, "LowerCautionLimit": 85.0, "LowerWarningLimit": 70.0, "Divisor": 100, "Unit": "%", "SimValue": 100.0, "noise": 0.0, "currentValue": 100.0, "CurrentValue": 100.0, "simulationValue": 100.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Fuel Cell #1 Stack Out Temp (Subfloor)", "DisplayValue": "1125.1 F", "Id": 170, "Name": "Fuel Cell #1 Stack Out Temp", "ParameterGroup": "Subfloor", "NominalValue": 1125.0, "UpperCautionLimit": 1250.0, "UpperWarningLimit": 1350.0, "LowerCautionLimit": 1050.0, "LowerWarningLimit": 950.0, "Divisor": 10, "Unit": "F", "SimValue": 1125.1, "noise": 0.1, "currentValue": 1125.0, "CurrentValue": 1125.0, "simulationValue": 1125.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Fuel Cell #1 Voltage (Subfloor)", "DisplayValue": "28.6 Vdc", "Id": 179, "Name": "Fuel Cell #1 Voltage", "ParameterGroup": "Subfloor", "NominalValue": 28.6, "UpperCautionLimit": 29.0, "UpperWarningLimit": 30.2, "LowerCautionLimit": 27.6, "LowerWarningLimit": 25.2, "Divisor": 10, "Unit": "Vdc", "SimValue": 28.6, "noise": 0.0, "currentValue": 28.6, "CurrentValue": 28.6, "simulationValue": 28.6, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Fuel Cell #2 Current (Subfloor)", "DisplayValue": "60.2 amps", "Id": 176, "Name": "Fuel Cell #2 Current", "ParameterGroup": "Subfloor", "NominalValue": 60.2, "UpperCautionLimit": 68.0, "UpperWarningLimit": 75.0, "LowerCautionLimit": 55.0, "LowerWarningLimit": 48.0, "Divisor": 10, "Unit": "amps", "SimValue": 60.2, "noise": 0.0, "currentValue": 60.2, "CurrentValue": 60.2, "simulationValue": 60.2, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Fuel Cell #2 PQM (Subfloor)", "DisplayValue": "99.99 %", "Id": 174, "Name": "Fuel Cell #2 PQM", "ParameterGroup": "Subfloor", "NominalValue": 99.99, "UpperCautionLimit": 110.0, "UpperWarningLimit": 120.0, "LowerCautionLimit": 85.0, "LowerWarningLimit": 70.0, "Divisor": 100, "Unit": "%", "SimValue": 99.99, "noise": 0.0, "currentValue": 99.99, "CurrentValue": 99.99, "simulationValue": 99.99, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Fuel Cell #2 Stack Out Temp (Subfloor)", "DisplayValue": "1125 F", "Id": 171, "Name": "Fuel Cell #2 Stack Out Temp", "ParameterGroup": "Subfloor", "NominalValue": 1125.0, "UpperCautionLimit": 1250.0, "UpperWarningLimit": 1350.0, "LowerCautionLimit": 1050.0, "LowerWarningLimit": 950.0, "Divisor": 10, "Unit": "F", "SimValue": 1125.0, "noise": 0.0, "currentValue": 1125.0, "CurrentValue": 1125.0, "simulationValue": 1125.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Fuel Cell #2 Voltage (Subfloor)", "DisplayValue": "28.6 Vdc", "Id": 180, "Name": "Fuel Cell #2 Voltage", "ParameterGroup": "Subfloor", "NominalValue": 28.6, "UpperCautionLimit": 29.0, "UpperWarningLimit": 30.2, "LowerCautionLimit": 27.6, "LowerWarningLimit": 25.2, "Divisor": 10, "Unit": "Vdc", "SimValue": 28.6, "noise": 0.0, "currentValue": 28.6, "CurrentValue": 28.6, "simulationValue": 28.6, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "H2O (Crew) (L2)", "DisplayValue": "3.6 gal", "Id": 167, "Name": "H2O (Crew)", "ParameterGroup": "L2", "NominalValue": 3.6, "UpperCautionLimit": 4.5, "UpperWarningLimit": 5.0, "LowerCautionLimit": 2.5, "LowerWarningLimit": 2.0, "Divisor": 100, "Unit": "gal", "SimValue": 3.6, "noise": 0.0, "currentValue": 3.6, "CurrentValue": 3.6, "simulationValue": 3.6, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "HMCTS (Trace Contaminants)", "DisplayValue": "0.66 ppm", "Id": 16, "Name": "HMCTS", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.66, "UpperCautionLimit": 1.2, "UpperWarningLimit": 1.7, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 1000, "Unit": "ppm", "SimValue": 0.66, "noise": 0.0, "currentValue": 0.66, "CurrentValue": 0.66, "simulationValue": 0.66, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Humidity (L2)", "DisplayValue": "52 %", "Id": 40, "Name": "Humidity", "ParameterGroup": "L2", "NominalValue": 52.01, "UpperCautionLimit": 61.0, "UpperWarningLimit": 70.0, "LowerCautionLimit": 50.0, "LowerWarningLimit": 40.0, "Divisor": 10, "Unit": "%", "SimValue": 52.0, "noise": 0.0, "currentValue": 52.01, "CurrentValue": 52.01, "simulationValue": 52.01, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Humidity (L1)", "DisplayValue": "52.1 %", "Id": 6, "Name": "Humidity", "ParameterGroup": "L1", "NominalValue": 52.01, "UpperCautionLimit": 61.0, "UpperWarningLimit": 70.0, "LowerCautionLimit": 50.0, "LowerWarningLimit": 40.0, "Divisor": 10, "Unit": "%", "SimValue": 52.1, "noise": 0.1, "currentValue": 52.01, "CurrentValue": 52.01, "simulationValue": 52.01, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "m-p Xylenes (Trace Contaminants)", "DisplayValue": "0 ppm", "Id": 17, "Name": "m-p Xylenes", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.0, "UpperCautionLimit": 0.05, "UpperWarningLimit": 0.1, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 100, "Unit": "ppm", "SimValue": 0.0, "noise": 0.0, "currentValue": 0.0, "CurrentValue": 0.0, "simulationValue": 0.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Main Cabin Fan #1 (L1)", "DisplayValue": "4053 rpm", "Id": 164, "Name": "Main Cabin Fan #1", "ParameterGroup": "L1", "NominalValue": 4052.0, "UpperCautionLimit": 8500.0, "UpperWarningLimit": 9000.0, "LowerCautionLimit": 3700.0, "LowerWarningLimit": 1900.0, "Divisor": 1, "Unit": "rpm", "SimValue": 4053.0, "noise": 1.0, "currentValue": 4052.0, "CurrentValue": 4052.0, "simulationValue": 4052.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Main Cabin Fan #2 (L1)", "DisplayValue": "4051 rpm", "Id": 165, "Name": "Main Cabin Fan #2", "ParameterGroup": "L1", "NominalValue": 4050.0, "UpperCautionLimit": 8500.0, "UpperWarningLimit": 9000.0, "LowerCautionLimit": 3700.0, "LowerWarningLimit": 1900.0, "Divisor": 1, "Unit": "rpm", "SimValue": 4051.0, "noise": 1.0, "currentValue": 4050.0, "CurrentValue": 4050.0, "simulationValue": 4050.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "MOXIE Compressor Temp (Subfloor)", "DisplayValue": "160.1 F", "Id": 192, "Name": "MOXIE Compressor Temp", "ParameterGroup": "Subfloor", "NominalValue": 160.0, "UpperCautionLimit": 170.0, "UpperWarningLimit": 180.0, "LowerCautionLimit": 140.0, "LowerWarningLimit": 120.0, "Divisor": 10, "Unit": "F", "SimValue": 160.1, "noise": 0.1, "currentValue": 160.0, "CurrentValue": 160.0, "simulationValue": 160.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "n_Butanol (Trace Contaminants)", "DisplayValue": "0.021 ppm", "Id": 18, "Name": "n_Butanol", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.02, "UpperCautionLimit": 0.07, "UpperWarningLimit": 0.1, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 1000, "Unit": "ppm", "SimValue": 0.021, "noise": 0.001, "currentValue": 0.02, "CurrentValue": 0.02, "simulationValue": 0.02, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "o-Xylene (Trace Contaminants)", "DisplayValue": "0.01 ppm", "Id": 69, "Name": "o-Xylene", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.01, "UpperCautionLimit": 0.05, "UpperWarningLimit": 0.1, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 100, "Unit": "ppm", "SimValue": 0.01, "noise": 0.0, "currentValue": 0.01, "CurrentValue": 0.01, "simulationValue": 0.01, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "OMCTS (Trace Contaminants)", "DisplayValue": "0.04 ppm", "Id": 20, "Name": "OMCTS", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.04, "UpperCautionLimit": 0.08, "UpperWarningLimit": 0.1, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 1000, "Unit": "ppm", "SimValue": 0.04, "noise": 0.0, "currentValue": 0.04, "CurrentValue": 0.04, "simulationValue": 0.04, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 1 Bank  2 (Subfloor)", "DisplayValue": "20.1 amps", "Id": 143, "Name": "PDU 1 Bank  2", "ParameterGroup": "Subfloor", "NominalValue": 20.0, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.1, "noise": 0.1, "currentValue": 20.0, "CurrentValue": 20.0, "simulationValue": 20.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 1 Bank 1 (Subfloor)", "DisplayValue": "20 amps", "Id": 142, "Name": "PDU 1 Bank 1", "ParameterGroup": "Subfloor", "NominalValue": 19.9, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.0, "noise": 0.1, "currentValue": 19.9, "CurrentValue": 19.9, "simulationValue": 19.9, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 2 Bank 1 (Subfloor)", "DisplayValue": "20.3 amps", "Id": 144, "Name": "PDU 2 Bank 1", "ParameterGroup": "Subfloor", "NominalValue": 20.2, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.3, "noise": 0.1, "currentValue": 20.2, "CurrentValue": 20.2, "simulationValue": 20.2, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 2 bank 2 (Subfloor)", "DisplayValue": "20.2 amps", "Id": 145, "Name": "PDU 2 bank 2", "ParameterGroup": "Subfloor", "NominalValue": 20.1, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.2, "noise": 0.1, "currentValue": 20.1, "CurrentValue": 20.1, "simulationValue": 20.1, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 3 Bank 1 (Subfloor)", "DisplayValue": "20.1 amps", "Id": 184, "Name": "PDU 3 Bank 1", "ParameterGroup": "Subfloor", "NominalValue": 20.0, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.1, "noise": 0.1, "currentValue": 20.0, "CurrentValue": 20.0, "simulationValue": 20.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 3 Bank 2 (Subfloor)", "DisplayValue": "20.1 amps", "Id": 185, "Name": "PDU 3 Bank 2", "ParameterGroup": "Subfloor", "NominalValue": 20.0, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.1, "noise": 0.1, "currentValue": 20.0, "CurrentValue": 20.0, "simulationValue": 20.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 4 Bank 2 (Subfloor)", "DisplayValue": "20 amps", "Id": 187, "Name": "PDU 4 Bank 2", "ParameterGroup": "Subfloor", "NominalValue": 20.0, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.0, "noise": 0.0, "currentValue": 20.0, "CurrentValue": 20.0, "simulationValue": 20.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 4 Bank1 (Subfloor)", "DisplayValue": "20.2 amps", "Id": 186, "Name": "PDU 4 Bank1", "ParameterGroup": "Subfloor", "NominalValue": 20.1, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.2, "noise": 0.1, "currentValue": 20.1, "CurrentValue": 20.1, "simulationValue": 20.1, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 5 Bank 1 (Subfloor)", "DisplayValue": "20 amps", "Id": 188, "Name": "PDU 5 Bank 1", "ParameterGroup": "Subfloor", "NominalValue": 20.0, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.0, "noise": 0.0, "currentValue": 20.0, "CurrentValue": 20.0, "simulationValue": 20.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 5 Bank 2 (Subfloor)", "DisplayValue": "20.1 amps", "Id": 189, "Name": "PDU 5 Bank 2", "ParameterGroup": "Subfloor", "NominalValue": 20.0, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.1, "noise": 0.1, "currentValue": 20.0, "CurrentValue": 20.0, "simulationValue": 20.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 6 Bank 1 (Subfloor)", "DisplayValue": "20 amps", "Id": 190, "Name": "PDU 6 Bank 1", "ParameterGroup": "Subfloor", "NominalValue": 20.0, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.0, "noise": 0.0, "currentValue": 20.0, "CurrentValue": 20.0, "simulationValue": 20.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "PDU 6 Bank 2 (Subfloor)", "DisplayValue": "20 amps", "Id": 191, "Name": "PDU 6 Bank 2", "ParameterGroup": "Subfloor", "NominalValue": 20.0, "UpperCautionLimit": 25.0, "UpperWarningLimit": 30.0, "LowerCautionLimit": 5.0, "LowerWarningLimit": 2.0, "Divisor": 10, "Unit": "amps", "SimValue": 20.0, "noise": 0.0, "currentValue": 20.0, "CurrentValue": 20.0, "simulationValue": 20.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppCO2 (L1)", "DisplayValue": "2.6 mmHG", "Id": 38, "Name": "ppCO2", "ParameterGroup": "L1", "NominalValue": 2.59, "UpperCautionLimit": 4.5, "UpperWarningLimit": 6.0, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 100, "Unit": "mmHG", "SimValue": 2.6, "noise": 0.01, "currentValue": 2.59, "CurrentValue": 2.59, "simulationValue": 2.59, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppCO2 (L2)", "DisplayValue": "2.59 mmHG", "Id": 41, "Name": "ppCO2", "ParameterGroup": "L2", "NominalValue": 2.59, "UpperCautionLimit": 4.5, "UpperWarningLimit": 6.0, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 100, "Unit": "mmHG", "SimValue": 2.59, "noise": 0.0, "currentValue": 2.59, "CurrentValue": 2.59, "simulationValue": 2.59, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppH2 (L1)", "DisplayValue": "0.04 mmHG", "Id": 161, "Name": "ppH2", "ParameterGroup": "L1", "NominalValue": 0.04, "UpperCautionLimit": 0.07, "UpperWarningLimit": 0.1, "LowerCautionLimit": 0.02, "LowerWarningLimit": 0.01, "Divisor": 1000, "Unit": "mmHG", "SimValue": 0.04, "noise": 0.0, "currentValue": 0.04, "CurrentValue": 0.04, "simulationValue": 0.04, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppH2 (L2)", "DisplayValue": "0.041 mmHG", "Id": 162, "Name": "ppH2", "ParameterGroup": "L2", "NominalValue": 0.04, "UpperCautionLimit": 0.07, "UpperWarningLimit": 0.1, "LowerCautionLimit": 0.02, "LowerWarningLimit": 0.01, "Divisor": 1000, "Unit": "mmHG", "SimValue": 0.041, "noise": 0.001, "currentValue": 0.04, "CurrentValue": 0.04, "simulationValue": 0.04, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppH2O (L1)", "DisplayValue": "4.5 mmHG", "Id": 159, "Name": "ppH2O", "ParameterGroup": "L1", "NominalValue": 4.5, "UpperCautionLimit": 5.8, "UpperWarningLimit": 6.1, "LowerCautionLimit": 1.5, "LowerWarningLimit": 0.5, "Divisor": 100, "Unit": "mmHG", "SimValue": 4.5, "noise": 0.0, "currentValue": 4.5, "CurrentValue": 4.5, "simulationValue": 4.5, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppH2O (L2)", "DisplayValue": "4.51 mmHG", "Id": 160, "Name": "ppH2O", "ParameterGroup": "L2", "NominalValue": 4.5, "UpperCautionLimit": 5.8, "UpperWarningLimit": 6.1, "LowerCautionLimit": 1.5, "LowerWarningLimit": 0.5, "Divisor": 100, "Unit": "mmHG", "SimValue": 4.51, "noise": 0.01, "currentValue": 4.5, "CurrentValue": 4.5, "simulationValue": 4.5, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppN2 (L1)", "DisplayValue": "581.75 mmHG", "Id": 39, "Name": "ppN2", "ParameterGroup": "L1", "NominalValue": 581.75, "UpperCautionLimit": 591.0, "UpperWarningLimit": 600.0, "LowerCautionLimit": 480.0, "LowerWarningLimit": 220.1, "Divisor": 100, "Unit": "mmHG", "SimValue": 581.75, "noise": 0.0, "currentValue": 581.75, "CurrentValue": 581.75, "simulationValue": 581.75, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppN2 (L2)", "DisplayValue": "581.85 mmHG", "Id": 42, "Name": "ppN2", "ParameterGroup": "L2", "NominalValue": 581.84, "UpperCautionLimit": 591.0, "UpperWarningLimit": 600.0, "LowerCautionLimit": 480.0, "LowerWarningLimit": 220.1, "Divisor": 100, "Unit": "mmHG", "SimValue": 581.85, "noise": 0.01, "currentValue": 581.84, "CurrentValue": 581.84, "simulationValue": 581.84, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppO2 (L1)", "DisplayValue": "163.82 mmHG", "Id": 43, "Name": "ppO2", "ParameterGroup": "L1", "NominalValue": 163.81, "UpperCautionLimit": 175.0, "UpperWarningLimit": 185.0, "LowerCautionLimit": 155.0, "LowerWarningLimit": 145.0, "Divisor": 100, "Unit": "mmHG", "SimValue": 163.82, "noise": 0.01, "currentValue": 163.81, "CurrentValue": 163.81, "simulationValue": 163.81, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppO2 (L2)", "DisplayValue": "163.79 mmHG", "Id": 1, "Name": "ppO2", "ParameterGroup": "L2", "NominalValue": 163.79, "UpperCautionLimit": 175.0, "UpperWarningLimit": 185.0, "LowerCautionLimit": 155.0, "LowerWarningLimit": 145.0, "Divisor": 100, "Unit": "mmHG", "SimValue": 163.79, "noise": 0.0, "currentValue": 163.79, "CurrentValue": 163.79, "simulationValue": 163.79, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Pressure (L1)", "DisplayValue": "0.99 atm", "Id": 4, "Name": "Pressure", "ParameterGroup": "L1", "NominalValue": 0.99, "UpperCautionLimit": 1.15, "UpperWarningLimit": 1.5, "LowerCautionLimit": 0.89, "LowerWarningLimit": 0.58, "Divisor": 100, "Unit": "atm", "SimValue": 0.99, "noise": 0.0, "currentValue": 0.99, "CurrentValue": 0.99, "simulationValue": 0.99, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Pressure (L2)", "DisplayValue": "0.99 atm", "Id": 44, "Name": "Pressure", "ParameterGroup": "L2", "NominalValue": 0.98, "UpperCautionLimit": 1.15, "UpperWarningLimit": 1.5, "LowerCautionLimit": 0.89, "LowerWarningLimit": 0.58, "Divisor": 100, "Unit": "atm", "SimValue": 0.99, "noise": 0.01, "currentValue": 0.98, "CurrentValue": 0.98, "simulationValue": 0.98, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Quarters Humidity (Crew)", "DisplayValue": "52.1 %", "Id": 56, "Name": "Quarters Humidity", "ParameterGroup": "Crew", "NominalValue": 52.01, "UpperCautionLimit": 61.0, "UpperWarningLimit": 68.0, "LowerCautionLimit": 40.0, "LowerWarningLimit": 30.0, "Divisor": 10, "Unit": "%", "SimValue": 52.1, "noise": 0.1, "currentValue": 52.01, "CurrentValue": 52.01, "simulationValue": 52.01, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Quarters Radiation (Crew)", "DisplayValue": "1.2 µGy/min", "Id": 60, "Name": "Quarters Radiation", "ParameterGroup": "Crew", "NominalValue": 1.2, "UpperCautionLimit": 1.5, "UpperWarningLimit": 1.8, "LowerCautionLimit": 0.5, "LowerWarningLimit": -1.0, "Divisor": 100, "Unit": "µGy/min", "SimValue": 1.2, "noise": 0.0, "currentValue": 1.2, "CurrentValue": 1.2, "simulationValue": 1.2, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Radiation (L1)", "DisplayValue": "1.201 µGy/min", "Id": 64, "Name": "Radiation", "ParameterGroup": "L1", "NominalValue": 1.2, "UpperCautionLimit": 1.5, "UpperWarningLimit": 1.8, "LowerCautionLimit": -0.5, "LowerWarningLimit": -1.0, "Divisor": 1000, "Unit": "µGy/min", "SimValue": 1.201, "noise": 0.001, "currentValue": 1.2, "CurrentValue": 1.2, "simulationValue": 1.2, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Radiation (L2)", "DisplayValue": "1.2 µGy/min", "Id": 65, "Name": "Radiation", "ParameterGroup": "L2", "NominalValue": 1.2, "UpperCautionLimit": 1.5, "UpperWarningLimit": 1.8, "LowerCautionLimit": -0.5, "LowerWarningLimit": -1.0, "Divisor": 1000, "Unit": "µGy/min", "SimValue": 1.2, "noise": 0.0, "currentValue": 1.2, "CurrentValue": 1.2, "simulationValue": 1.2, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Solar Array Current (Subfloor)", "DisplayValue": "60.2 Vdc", "Id": 182, "Name": "Solar Array Current", "ParameterGroup": "Subfloor", "NominalValue": 60.2, "UpperCautionLimit": 68.0, "UpperWarningLimit": 75.0, "LowerCautionLimit": 55.0, "LowerWarningLimit": 48.0, "Divisor": 10, "Unit": "Vdc", "SimValue": 60.2, "noise": 0.0, "currentValue": 60.2, "CurrentValue": 60.2, "simulationValue": 60.2, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Solar Array Voltage (Subfloor)", "DisplayValue": "28.6 Vdc", "Id": 181, "Name": "Solar Array Voltage", "ParameterGroup": "Subfloor", "NominalValue": 28.6, "UpperCautionLimit": 29.0, "UpperWarningLimit": 30.2, "LowerCautionLimit": 27.6, "LowerWarningLimit": 25.2, "Divisor": 10, "Unit": "Vdc", "SimValue": 28.6, "noise": 0.0, "currentValue": 28.6, "CurrentValue": 28.6, "simulationValue": 28.6, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "SOXE Stack Temp (Subfloor)", "DisplayValue": "1481.1 F", "Id": 183, "Name": "SOXE Stack Temp", "ParameterGroup": "Subfloor", "NominalValue": 1481.0, "UpperCautionLimit": 1629.0, "UpperWarningLimit": 1670.0, "LowerCautionLimit": 1333.0, "LowerWarningLimit": 1292.0, "Divisor": 10, "Unit": "F", "SimValue": 1481.1, "noise": 0.1, "currentValue": 1481.0, "CurrentValue": 1481.0, "simulationValue": 1481.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Toluene (Trace Contaminants)", "DisplayValue": "0.011 ppm", "Id": 21, "Name": "Toluene", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.01, "UpperCautionLimit": 0.05, "UpperWarningLimit": 0.1, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 1000, "Unit": "ppm", "SimValue": 0.011, "noise": 0.001, "currentValue": 0.01, "CurrentValue": 0.01, "simulationValue": 0.01, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Total Cabin Pressure (L1)", "DisplayValue": "14.71 psi", "Id": 123, "Name": "Total Cabin Pressure", "ParameterGroup": "L1", "NominalValue": 14.7, "UpperCautionLimit": 14.9, "UpperWarningLimit": 15.2, "LowerCautionLimit": 14.55, "LowerWarningLimit": 12.7, "Divisor": 100, "Unit": "psi", "SimValue": 14.71, "noise": 0.01, "currentValue": 14.7, "CurrentValue": 14.7, "simulationValue": 14.7, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Total Cabin Pressure (L2)", "DisplayValue": "14.7 psi", "Id": 168, "Name": "Total Cabin Pressure", "ParameterGroup": "L2", "NominalValue": 14.7, "UpperCautionLimit": 14.9, "UpperWarningLimit": 15.2, "LowerCautionLimit": 14.55, "LowerWarningLimit": 12.7, "Divisor": 100, "Unit": "psi", "SimValue": 14.7, "noise": 0.0, "currentValue": 14.7, "CurrentValue": 14.7, "simulationValue": 14.7, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "Trimethylsilanol (Trace Contaminants)", "DisplayValue": "0.2 ppm", "Id": 22, "Name": "Trimethylsilanol", "ParameterGroup": "Trace Contaminants", "NominalValue": 0.14, "UpperCautionLimit": 0.25, "UpperWarningLimit": 0.35, "LowerCautionLimit": -1.0, "LowerWarningLimit": -2.0, "Divisor": 10, "Unit": "ppm", "SimValue": 0.2, "noise": 0.1, "currentValue": 0.14, "CurrentValue": 0.14, "simulationValue": 0.14, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "WRS Delivery Pump (L2)", "DisplayValue": "2.5 gal/hr", "Id": 193, "Name": "WRS Delivery Pump", "ParameterGroup": "L2", "NominalValue": 2.5, "UpperCautionLimit": 2.8, "UpperWarningLimit": 3.0, "LowerCautionLimit": 1.8, "LowerWarningLimit": 1.0, "Divisor": 100, "Unit": "gal/hr", "SimValue": 2.5, "noise": 0.0, "currentValue": 2.5, "CurrentValue": 2.5, "simulationValue": 2.5, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "WRS Valve Flow (L2)", "DisplayValue": "6.01 gal/hr", "Id": 169, "Name": "WRS Valve Flow", "ParameterGroup": "L2", "NominalValue": 6.0, "UpperCautionLimit": 8.0, "UpperWarningLimit": 9.5, "LowerCautionLimit": 4.0, "LowerWarningLimit": 2.0, "Divisor": 100, "Unit": "gal/hr", "SimValue": 6.01, "noise": 0.01, "currentValue": 6.0, "CurrentValue": 6.0, "simulationValue": 6.0, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    },
+    {"SimulatedParameter": true, "DisplayName": "ppO2_test (L1)", "DisplayValue": "163.82 mmHG", "Id": 43, "Name": "ppO2_test", "ParameterGroup": "L1_test", "NominalValue": 163.81, "UpperCautionLimit": 175.0, "UpperWarningLimit": 185.0, "LowerCautionLimit": 155.0, "LowerWarningLimit": 145.0, "Divisor": 100, "Unit": "mmHG", "SimValue": 21.66, "noise": 0.01, "currentValue": 163.81, "CurrentValue": 163.81, "simulationValue": 163.81, "Status": {"LowerWarning": false, "LowerCaution": false, "Nominal": true, "UpperCaution": false, "UpperWarning": false, "UnderLimit": false, "OverLimit": false, "Caution": false, "Warning": false
+        }, "HasDuplicationError": false, "DuplicationError": null
+    }
+], "MasterStatus": {"Caution": false, "Warning": false
+}, "HardwareList": [
+    {"Id": 21, "Name": "Airlock Cabin Fan", "ControllerSlot": 2, "Pin": 5, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 5, "Name": "ATM Light", "ControllerSlot": 1, "Pin": 4, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 31, "Name": "Aux Fan 1 CB", "ControllerSlot": 3, "Pin": 3, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 32, "Name": "Aux Fan 2 CB", "ControllerSlot": 3, "Pin": 4, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 7, "Name": "Caution Light", "ControllerSlot": 1, "Pin": 6, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": false, "Active": false, "HardwareType": 1
+    },
+    {"Id": 20, "Name": "CO2 Dump", "ControllerSlot": 2, "Pin": 4, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 71, "Name": "DAPHNE", "ControllerSlot": 3, "Pin": 15, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 4, "Name": "Delta P Light", "ControllerSlot": 1, "Pin": 3, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 25, "Name": "Docking Probe", "ControllerSlot": 2, "Pin": 9, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 18, "Name": "EVA System Power", "ControllerSlot": 2, "Pin": 2, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 3, "Name": "Fire Light", "ControllerSlot": 1, "Pin": 2, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 56, "Name": "Fuel Cell #1 Power CB", "ControllerSlot": 3, "Pin": 9, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 60, "Name": "Fuel Cell #2 Power CB", "ControllerSlot": 3, "Pin": 10, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 26, "Name": "Glycol Pump", "ControllerSlot": 2, "Pin": 10, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 22, "Name": "H2O Dump Flow", "ControllerSlot": 2, "Pin": 6, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 23, "Name": "Internal Lights", "ControllerSlot": 2, "Pin": 7, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 29, "Name": "Main Cabin Fan 1 CB", "ControllerSlot": 3, "Pin": 1, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 30, "Name": "Main Cabin Fan 2 CB", "ControllerSlot": 3, "Pin": 2, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 9, "Name": "Main Heater Power", "ControllerSlot": 1, "Pin": 9, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 28, "Name": "Main Power", "ControllerSlot": 2, "Pin": 12, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 10, "Name": "Main Pump Power", "ControllerSlot": 1, "Pin": 10, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 59, "Name": "MOXIE CB", "ControllerSlot": 3, "Pin": 12, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 62, "Name": "MOXIE Compressor Fan", "ControllerSlot": 1, "Pin": 13, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 64, "Name": "MOXIE ECM #1", "ControllerSlot": 1, "Pin": 11, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 69, "Name": "MOXIE ECM #2", "ControllerSlot": 1, "Pin": 14, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 70, "Name": "MOXIE Recvr Lt", "ControllerSlot": 1, "Pin": 12, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 37, "Name": "N2 Tank Alarm", "ControllerSlot": 1, "Pin": 8, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 39, "Name": "Pressure Sensor #1", "ControllerSlot": 3, "Pin": 7, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 40, "Name": "Pressure Sensor #2", "ControllerSlot": 3, "Pin": 8, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 72, "Name": "Pressure Sensor #3", "ControllerSlot": 3, "Pin": 14, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 73, "Name": "Pressure Sensor #4", "ControllerSlot": 3, "Pin": 13, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 27, "Name": "SCE Power", "ControllerSlot": 2, "Pin": 11, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 17, "Name": "Secondary Docking Probe", "ControllerSlot": 2, "Pin": 1, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 58, "Name": "Solar Array CB", "ControllerSlot": 3, "Pin": 11, "NominalState": 1, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": true, "HardwareType": 1
+    },
+    {"Id": 2, "Name": "Strobe", "ControllerSlot": 1, "Pin": 1, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 24, "Name": "Suit Computer", "ControllerSlot": 2, "Pin": 8, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 19, "Name": "Suit Port Power", "ControllerSlot": 2, "Pin": 3, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": true, "Active": false, "HardwareType": 1
+    },
+    {"Id": 6, "Name": "Warning Light", "ControllerSlot": 1, "Pin": 5, "NominalState": 0, "PowerOnVoltage": 5.0, "AllowUserControl": false, "Active": false, "HardwareType": 1
+    }
+], "SimulationList": [], "Timestamp": "MD 973 11: 37: 26", "AudioAlertFilname": ""
+}}
