@@ -34,10 +34,10 @@ MONITOR_RANGES = {
 # Define failure scenarios (easily configurable)
 FAILURE_SCENARIOS = [
     {
-        "subsystem": "CDRS",           # Subsystem to fail
-        "failure_step": 2000,            # Time step when the failure occurs
-        "recovery_step": 6000,           # Time step when the subsystem recovers (None if not recoverable)
-        "failure_mode": "off",         # Failure mode: 'off' (completely stop) or 'reduced' (partial degradation)
+        "subsystem": "OGS",           # Subsystem to fail
+        "failure_step": 0,            # Time step when the failure occurs
+        "recovery_step": 40,           # Time step when the subsystem recovers (None if not recoverable)
+        "failure_mode": "on",         # Failure mode: 'off' (completely stop) or 'reduced' (partial degradation)
         "reduction_factor": 0.0,       # Reduction factor (used only if failure_mode is 'reduced')
     },
     # Add additional failure scenarios as needed
@@ -73,7 +73,7 @@ subsystems = {
 
 # Human respiration and water usage (per person)
 human_respiration = {
-    "O2_consumption_per_day": 0.84,  # kg/day
+    "O2_consumption_per_day": 0.84*100,  # kg/day remove *10 later this is temporary
     "CO2_production_per_day": 1.0,  # kg/day
     "water_consumption_per_day": 3.0,  # liters/day (drinking, hygiene)
     "crew_size": 4,  # Number of crew members
@@ -100,6 +100,8 @@ def apply_failures(subsystems, failure_scenarios, current_step):
                 subsystems[scenario["subsystem"]]["status"] = False
             elif scenario["failure_mode"] == "reduced":
                 subsystems[scenario["subsystem"]]["CO2_removal_rate"] *= scenario["reduction_factor"]
+            elif scenario["failure_mode"] == "on":
+                subsystems[scenario["subsystem"]]["status"] = True
         elif scenario["recovery_step"] is not None and current_step == scenario["recovery_step"]:
             # Recover subsystem
             subsystems[scenario["subsystem"]]["status"] = True

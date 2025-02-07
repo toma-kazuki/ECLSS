@@ -4,7 +4,7 @@
             {
                 "SimulatedParameter": true,
                 "DisplayName": "Cabin_ppO2",
-                "DisplayValue": "160.8 mmHG",
+                "DisplayValue": "161.61 mmHG",
                 "Id": 43,
                 "Name": "ppO2_test",
                 "ParameterGroup": "L1_test",
@@ -15,11 +15,11 @@
                 "LowerWarningLimit": 145.0,
                 "Divisor": 100,
                 "Unit": "mmHG",
-                "SimValue": 160.8,
+                "SimValue": 161.61,
                 "noise": 0.01,
-                "currentValue": 160.8,
-                "CurrentValue": 160.8,
-                "simulationValue": 160.8,
+                "currentValue": 161.61,
+                "CurrentValue": 161.61,
+                "simulationValue": 161.61,
                 "Status": {
                     "LowerWarning": false,
                     "LowerCaution": false,
@@ -41,6 +41,6 @@
         },
         "HardwareList": [],
         "SimulationList": [],
-        "Timestamp": "MD 035 17:05:52"
+        "Timestamp": "MD 037 00:05:36"
     }
 }
