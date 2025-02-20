@@ -1,26 +1,28 @@
 CONTROL_RANGES = {
-    "ppO2": {"min": 21.4, "max": 21.6},
-    "ppCO2": {"min": 0.39, "max": 0.41},
-    "water": {"min": 10, "max": 120},
+    "OGS": {"param": "ppO2", "min": 21.4, "max": 21.6, "activate_on": "below_min"},
+    "CDRS": {"param": "ppCO2", "min": 0.39, "max": 0.41, "activate_on": "above_max"},
+    "WRS": {"param": "water_tank", "min": 10, "max": 120, "activate_on": "below_min"},
 }
 
 def check_limits_and_control(cabin, subsystems):
     """
     Adjusts subsystem status based on monitored cabin parameters.
     """
-    if cabin["ppO2"] > CONTROL_RANGES["ppO2"]["max"]:
-        subsystems["OGS"]["status"] = False
-    elif cabin["ppO2"] < CONTROL_RANGES["ppO2"]["min"]:
-        subsystems["OGS"]["status"] = True
 
-    if cabin["ppCO2"] > CONTROL_RANGES["ppCO2"]["max"]:
-        subsystems["CDRS"]["status"] = True
-    elif cabin["ppCO2"] < CONTROL_RANGES["ppCO2"]["min"]:
-        subsystems["CDRS"]["status"] = False
+    # Embed control ranges within respective subsystems
+    for system, control in CONTROL_RANGES.items():
+        subsystems[system]["control_range"] = {"min": control["min"], "max": control["max"]}
 
-    if cabin["water"] < CONTROL_RANGES["water"]["min"]:
-        subsystems["WRS"]["status"] = True
-    elif cabin["water"] > CONTROL_RANGES["water"]["max"]:
-        subsystems["WRS"]["status"] = False
+        param = control["param"]
+        if control["activate_on"] == "above_max":
+            if cabin[param] > control["max"]:
+                subsystems[system]["status"] = True 
+            elif cabin[param] < control["min"]:
+                subsystems[system]["status"] = False
+        elif control["activate_on"] == "below_min":
+            if cabin[param] < control["min"]:
+                subsystems[system]["status"] = True
+            elif cabin[param] > control["max"]:
+                subsystems[system]["status"] = False
 
     return subsystems

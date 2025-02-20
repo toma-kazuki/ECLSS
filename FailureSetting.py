@@ -1,7 +1,7 @@
 FAILURE_SCENARIOS = [
     {"subsystem": "OGS", 
-     "failure_step": 0, 
-     "recovery_step": 40, 
+     "failure_step": 2000, 
+     "recovery_step": 4000, 
      "failure_mode": "on", 
      "reduction_factor": 0.0}
     ]

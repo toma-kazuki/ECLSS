@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import requests
 import os
 import json
+import copy
 import time
 from datetime import datetime
 from ControlSetting import check_limits_and_control
@@ -13,17 +14,14 @@ real_time_mode = False  # Set to False to run as fast as possible
 simulation_speed = 1.0  # 1.0 = real-time (1 second per step), 2.0 = 2x faster, etc.
 
 # Simulate over time
-time_steps = 100
+time_steps = 1000
 
 # File path to the JSON file
 json_file_path = 'temp.json'
 
 # URL to post to
 url = 'https://daphne-at-lab.selva-research.com/api/at/receiveHeraFeed'
-
-json_data = {"ppO2": [], "ppCO2": [], "water": [], "temperature": [], "OGS": [], "CDRS": [], "WRS": [], "TCS": []}
-cabin_history = {"ppO2": [], "ppCO2": [], "water": [], "temperature": []}
-subsystem_history = {"OGS": [], "CDRS": [], "WRS": [], "TCS": []}
+data_history = []
 
 # Function to save JSON data with a unique filename
 def create_json(cabin):
@@ -112,13 +110,91 @@ def create_json(cabin):
     except Exception as e:
         print("An error occurred:", e)
 
+def plot_result(data_history):
+    # Extract time series data
+    time_steps = [entry["time_step"] for entry in data_history]
+    ppO2_values = [entry["cabin"]["ppO2"] for entry in data_history]
+    ppCO2_values = [entry["cabin"]["ppCO2"] for entry in data_history]
+    water_tank_values = [entry["cabin"]["water_tank"] for entry in data_history]
+
+    # Extract subsystem status (convert True to 1, False to 0)
+    OGS_status = [int(entry["subsystems"]["OGS"]["status"]) for entry in data_history]
+    CDRS_status = [int(entry["subsystems"]["CDRS"]["status"]) for entry in data_history]
+    WRS_status = [int(entry["subsystems"]["WRS"]["status"]) for entry in data_history]
+
+    MONITOR_RANGES = {
+        "ppO2": {"min": 19.5, "max": 23.5},  # kPa
+        "ppCO2": {"min": 0.0, "max": 0.5},   # kPa
+        "water": {"min": 10, "max": 120},    # liters
+        "temperature": {"min": 18, "max": 26},  # °C
+    }
+
+    # Create figure for plotting
+    plt.figure(figsize=(12, 8))
+
+    # (1,1) Partial Pressure of O2
+    plt.subplot(2, 3, 1)
+    plt.plot(time_steps, ppO2_values, label="ppO2 (kPa)")
+    plt.axhline(MONITOR_RANGES["ppO2"]["min"], color="r", linestyle="--", label="Min Safe ppO2")
+    plt.axhline(MONITOR_RANGES["ppO2"]["max"], color="r", linestyle="--", label="Max Safe ppO2")
+    plt.title("Partial Pressure of O2")
+    plt.xlabel("Time Steps")
+    plt.ylabel("kPa")
+    plt.legend()
+
+    # (1,2) Partial Pressure of CO2
+    plt.subplot(2, 3, 2)
+    plt.plot(time_steps, ppCO2_values, label="ppCO2 (kPa)", color="orange")
+    plt.axhline(MONITOR_RANGES["ppCO2"]["min"], color="r", linestyle="--", label="Min Safe ppCO2")
+    plt.axhline(MONITOR_RANGES["ppCO2"]["max"], color="r", linestyle="--", label="Max Safe ppCO2")
+    plt.title("Partial Pressure of CO2")
+    plt.xlabel("Time Steps")
+    plt.ylabel("kPa")
+    plt.legend()
+
+    # (1,3) Water Availability
+    plt.subplot(2, 3, 3)
+    plt.plot(time_steps, water_tank_values, label="Water Available (liters)", color="blue")
+    plt.axhline(MONITOR_RANGES["water"]["min"], color="r", linestyle="--", label="Min Safe Water")
+    plt.axhline(MONITOR_RANGES["water"]["max"], color="r", linestyle="--", label="Max Safe Water")
+    plt.title("Water Availability")
+    plt.xlabel("Time Steps")
+    plt.ylabel("Liters")
+    plt.legend()
+
+    # (2,1) OGS Status
+    plt.subplot(2, 3, 4)
+    plt.plot(time_steps, OGS_status)
+    plt.title("OGS Status")
+    plt.xlabel("Time Steps")
+    plt.ylabel("Active (1) / Inactive (0)")
+
+    # (2,2) CDRS Status
+    plt.subplot(2, 3, 5)
+    plt.plot(time_steps, CDRS_status)
+    plt.title("CDRS Status")
+    plt.xlabel("Time Steps")
+    plt.ylabel("Active (1) / Inactive (0)")
+
+    # (2,3) WRS Status
+    plt.subplot(2, 3, 6)
+    plt.plot(time_steps, WRS_status)
+    plt.title("WRS Status")
+    plt.xlabel("Time Steps")
+    plt.ylabel("Active (1) / Inactive (0)")
+
+    # Adjust layout to prevent overlap
+    plt.tight_layout()
+    plt.show()
+
 def main():# Main simulation loop with controlled or unrestricted time steps
     
-    cabin = {"ppO2": 21.0, "ppCO2": 0.4, "water": 100.0}
+    cabin = {"ppO2": 21.0, "ppCO2": 0.4, "water_tank": 100.0}
     subsystems = {
         "OGS": {"status": True, "O2_rate": 0.5, "water_consumption": 1.0},
         "CDRS": {"status": True, "CO2_removal_rate": 0.003},
         "WRS": {"status": True, "water_recovery_rate": 0.95},
+        "Sabatier": {"status": True}
     }
 
     for t in range(time_steps):
@@ -135,19 +211,18 @@ def main():# Main simulation loop with controlled or unrestricted time steps
             sleep_time = max(0, (1.0 / simulation_speed) - elapsed_time)  # Ensure non-negative sleep time
             time.sleep(sleep_time)  # Pause before next timestep
         else:
-            print(f"Step {t}: ppO2={cabin['ppO2']}, ppCO2={cabin['ppCO2']}, water={cabin['water']}")
+            print(f"Step {t}: ppO2={cabin['ppO2']}, ppCO2={cabin['ppCO2']}, water_tank={cabin['water_tank']}")
 
 
         # Store history
-        cabin_history["ppO2"].append(cabin["ppO2"])
-        cabin_history["ppCO2"].append(cabin["ppCO2"])
-        cabin_history["water"].append(cabin["water"])
-        subsystem_history["OGS"].append(subsystems["OGS"]["status"])
-        subsystem_history["CDRS"].append(subsystems["CDRS"]["status"])
-        subsystem_history["WRS"].append(subsystems["WRS"]["status"])
+        data_history.append({
+            "time_step": t,
+            "cabin": copy.deepcopy(cabin),
+            "subsystems": copy.deepcopy(subsystems)
+        })
 
     print("<<<<<<<<<Simulation Completed!!!>>>>>>>>>>")
-    #plot_result()
+    plot_result(data_history)
 
 if __name__ == "__main__":
     main()
