@@ -1,9 +1,14 @@
 FAILURE_SCENARIOS = [
-    {"subsystem": "OGS", 
-     "failure_step": 2000, 
-     "recovery_step": 4000, 
-     "failure_mode": "on", 
-     "reduction_factor": 0.0}
+    # {"subsystem": "OGS", 
+    #  "failure_step": 2000, 
+    #  "recovery_step": 4000, 
+    #  "failure_mode": "on", 
+    #  "reduction_factor": 0.0},
+    # {"subsystem": "CDRS", 
+    #  "failure_step": 1000, 
+    #  "recovery_step": 6000, 
+    #  "failure_mode": "on", 
+    #  "reduction_factor": 0.0}
     ]
 
 def apply_failures(subsystems, current_step):

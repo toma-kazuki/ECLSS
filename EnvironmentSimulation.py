@@ -7,9 +7,9 @@ CABIN_VOLUME = 100.0
 SECONDS_PER_DAY = 86400
 
 RESPIRATION = {
-    "O2_consumption_per_day": 0.84,  # kg/日
-    "CO2_production_per_day": 1.0,   # kg/日
-    "water_consumption_per_day": 3.0,  # L/日
+    "O2_consumption_per_day": 0.84,  # kg/day
+    "CO2_production_per_day": 1.0,   # kg/day
+    "water_consumption_per_day": 3.0,  # L/day
     "crew_size": 4,
 }
 
