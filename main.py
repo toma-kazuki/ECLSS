@@ -7,7 +7,7 @@ import copy
 import time
 from datetime import datetime
 from ControlSetting import check_limits_and_control
-from EnvironmentSimulation import simulate_step
+from EnvironmentSimulation import simulate_init, simulate_step
 
 # Simulation settings
 real_time_mode = False  # Set to False to run as fast as possible
@@ -123,6 +123,14 @@ def plot_result(data_history):
     WRS_status = [int(entry["subsystems"]["WRS"]["status"]) for entry in data_history]
     Sabatier_status = [int(entry["subsystems"]["Sabatier"]["status"]) for entry in data_history]
 
+    # Extract control range for each subsystem 
+    control_ranges_ppO2_min = [entry["control_ranges"]["OGS"]["ppO2_lower_control_limit"] for entry in data_history]
+    control_ranges_ppO2_max = [entry["control_ranges"]["OGS"]["ppO2_upper_control_limit"] for entry in data_history]
+    control_ranges_ppCO2_min = [entry["control_ranges"]["CDRS"]["ppCO2_lower_control_limit"] for entry in data_history]
+    control_ranges_ppCO2_max = [entry["control_ranges"]["CDRS"]["ppCO2_upper_control_limit"] for entry in data_history]
+    #control_ranges_WRS_min = [entry["control_ranges"]["WRS"]["min"] for entry in data_history]
+    #control_ranges_WRS_max = [entry["control_ranges"]["WRS"]["max"] for entry in data_history]
+
     MONITOR_RANGES = {
         "ppO2": {"min": 19.5, "max": 23.5},  # kPa
         "ppCO2": {"min": 0.0, "max": 0.5},   # kPa
@@ -134,10 +142,10 @@ def plot_result(data_history):
     plt.figure(figsize=(12, 8))
 
     # (1,1) Partial Pressure of O2
-    plt.subplot(2, 4, 1)
+    plt.subplot(3, 3, 1)
     plt.plot(time_steps, ppO2_values, label="ppO2 (kPa)")
-#     plt.axhline(CONTROL_RANGES["ppO2"]["min"], color="b", linestyle="--", label="Min Safe ppO2")
-#     plt.axhline(CONTROL_RANGES["ppO2"]["max"], color="b", linestyle="--", label="Max Safe ppO2")
+    plt.plot(time_steps, control_ranges_ppO2_min, color="b", linestyle="--", label="Min Safe ppO2")
+    plt.plot(time_steps, control_ranges_ppO2_max, color="b", linestyle="--", label="Max Safe ppO2")
     plt.axhline(MONITOR_RANGES["ppO2"]["min"], color="r", linestyle="--", label="Min Safe ppO2")
     plt.axhline(MONITOR_RANGES["ppO2"]["max"], color="r", linestyle="--", label="Max Safe ppO2")
     plt.title("Partial Pressure of O2")
@@ -146,10 +154,10 @@ def plot_result(data_history):
     plt.legend()
 
     # (1,2) Partial Pressure of CO2
-    plt.subplot(2, 4, 2)
+    plt.subplot(3, 3, 2)
     plt.plot(time_steps, ppCO2_values, label="ppCO2 (kPa)", color="orange")
-#     plt.axhline(CONTROL_RANGES["ppCO2"]["min"], color="b", linestyle="--", label="Min Control ppCO2")
-#     plt.axhline(CONTROL_RANGES["ppCO2"]["max"], color="b", linestyle="--", label="Max Control ppCO2")
+    plt.plot(control_ranges_ppCO2_min, color="b", linestyle="--", label="Min Control ppCO2")
+    plt.plot(control_ranges_ppCO2_max, color="b", linestyle="--", label="Max Control ppCO2")
     plt.axhline(MONITOR_RANGES["ppCO2"]["min"], color="r", linestyle="--", label="Min Safe ppCO2")
     plt.axhline(MONITOR_RANGES["ppCO2"]["max"], color="r", linestyle="--", label="Max Safe ppCO2")
     plt.title("Partial Pressure of CO2")
@@ -158,7 +166,7 @@ def plot_result(data_history):
     plt.legend()
 
     # (1,3) Water Availability
-    plt.subplot(2, 4, 3)
+    plt.subplot(3, 3, 3)
     plt.plot(time_steps, water_tank_values, label="Water Available (liters)", color="blue")
     plt.axhline(MONITOR_RANGES["water"]["min"], color="r", linestyle="--", label="Min Safe Water")
     plt.axhline(MONITOR_RANGES["water"]["max"], color="r", linestyle="--", label="Max Safe Water")
@@ -168,28 +176,28 @@ def plot_result(data_history):
     plt.legend()
 
     # (2,1) OGS Status
-    plt.subplot(2, 4, 5)
+    plt.subplot(3, 3, 4)
     plt.plot(time_steps, OGS_status)
     plt.title("OGS Status")
     plt.xlabel("Time Steps")
     plt.ylabel("Active (1) / Inactive (0)")
 
     # (2,2) CDRS Status
-    plt.subplot(2, 4, 6)
+    plt.subplot(3, 3, 5)
     plt.plot(time_steps, CDRS_status)
     plt.title("CDRS Status")
     plt.xlabel("Time Steps")
     plt.ylabel("Active (1) / Inactive (0)")
 
     # (2,3) WRS Status
-    plt.subplot(2, 4, 7)
+    plt.subplot(3, 3, 6)
     plt.plot(time_steps, WRS_status)
     plt.title("WRS Status")
     plt.xlabel("Time Steps")
     plt.ylabel("Active (1) / Inactive (0)")
 
     # (2,3) WRS Status
-    plt.subplot(2, 4, 8)
+    plt.subplot(3, 3, 9)
     plt.plot(time_steps, Sabatier_status)
     plt.title("Sabatier Status")
     plt.xlabel("Time Steps")
@@ -201,18 +209,12 @@ def plot_result(data_history):
 
 def main():# Main simulation loop with controlled or unrestricted time steps
     
-    cabin = {"ppO2": 21.0, "ppCO2": 0.4, "water_tank": 100.0}
-    subsystems = {
-        "OGS": {"status": True, "O2_rate": 0.5, "water_consumption": 1.0},
-        "CDRS": {"status": True, "CO2_removal_rate": 0.003},
-        "WRS": {"status": True, "water_recovery_rate": 0.95},
-        "Sabatier": {"status": True}
-    }
+    cabin, subsystems = simulate_init()
 
     for t in range(time_steps):
         start_time = time.time()  # Record start time of the timestep
     
-        subsystems = check_limits_and_control(cabin, subsystems)
+        subsystems, control_ranges = check_limits_and_control(cabin, subsystems)
         cabin, subsystems = simulate_step(cabin, subsystems, current_step=t)
 
         # Control execution speed if real_time_mode is enabled
@@ -230,8 +232,13 @@ def main():# Main simulation loop with controlled or unrestricted time steps
         data_history.append({
             "time_step": t,
             "cabin": copy.deepcopy(cabin),
-            "subsystems": copy.deepcopy(subsystems)
+            "subsystems": copy.deepcopy(subsystems),
+            "control_ranges": copy.deepcopy(control_ranges)
         })
+
+        if cabin["mission_mode"] == "failure":
+            break
+
 
     print("<<<<<<<<<Simulation Completed!!!>>>>>>>>>>")
     plot_result(data_history)

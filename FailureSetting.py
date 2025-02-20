@@ -1,13 +1,18 @@
 FAILURE_SCENARIOS = [
-    # {"subsystem": "OGS", 
-    #  "failure_step": 2000, 
-    #  "recovery_step": 4000, 
-    #  "failure_mode": "on", 
-    #  "reduction_factor": 0.0},
     # {"subsystem": "CDRS", 
     #  "failure_step": 1000, 
     #  "recovery_step": 6000, 
+    #  "failure_mode": "off", 
+    #  "reduction_factor": 0.0},
+    # {"subsystem": "OGS", 
+    #  "failure_step": 1000, 
+    #  "recovery_step": 6000, 
     #  "failure_mode": "on", 
+    #  "reduction_factor": 0.0}
+    # {"subsystem": "Sabatier", 
+    #  "failure_step": 1000, 
+    #  "recovery_step": 6000, 
+    #  "failure_mode": "off", 
     #  "reduction_factor": 0.0}
     ]
 
@@ -18,7 +23,7 @@ def apply_failures(subsystems, current_step):
     for scenario in FAILURE_SCENARIOS:
         subsystem_name = scenario["subsystem"]
         if subsystem_name not in subsystems:
-            continue  # 無効な subsystem の場合スキップ
+            continue  # Skip for invalid subsystem
 
         if scenario["failure_step"] <= current_step and (
             scenario["recovery_step"] is None or current_step < scenario["recovery_step"]
