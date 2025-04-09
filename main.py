@@ -14,7 +14,8 @@ simulation_speed = 1.0  # 1.0 = real-time (1 second per step), 2.0 = 2x faster, 
 json_file_path = 'jsonfile/sim_data.json'
 
 # URL to post to
-url = 'https://daphne-at-lab.selva-research.com/api/at/receiveHeraFeed'
+# url = 'https://daphne-at-lab.selva-research.com/api/at/receiveHeraFeed'
+url = 'http://localhost:8002/api/at/receiveHeraFeed'
 
 # Define control ranges (safe limits) for monitored parameters
 CONTROL_RANGES = {
@@ -51,19 +52,22 @@ FAILURE_SCENARIOS = [
 ]
 
 PARAMETER_INFO = {
-    "ppO2": {"DisplayName": "Cabin_ppO2", "Id": 43, "ParameterGroup": "L1_test", "NominalValue": 163.81,
+    "ppO2": {"DisplayName": "Cabin_ppO2", "Id": 43, "ParameterGroup": "L1", "NominalValue": 163.81,
              "UpperCautionLimit": 175.0, "UpperWarningLimit": 185.0, "LowerCautionLimit": 155.0,
-             "LowerWarningLimit": 145.0, "Divisor": 100, "Name": "ppO2_test", "Unit":"mmHg"},
-    "ppCO2": {"DisplayName": "Cabin_ppCO2", "Id": 44, "ParameterGroup": "L1_test", "NominalValue": 0.4,
+             "LowerWarningLimit": 145.0, "Divisor": 100, "Name": "ppO2", "Unit":"mmHg"},
+    "ppCO2": {"DisplayName": "Cabin_ppCO2", "Id": 44, "ParameterGroup": "L1", "NominalValue": 0.4,
               "UpperCautionLimit": 4.5, "UpperWarningLimit": 6.0, "LowerCautionLimit": -1.0,
-              "LowerWarningLimit": -2.0, "Divisor": 100, "Name": "ppCO2_test", "Unit":"mmHg"},
-    "water": {"DisplayName": "Water_Level", "Id": 45, "ParameterGroup": "Storage", "NominalValue": 100,
-              "UpperCautionLimit": 110, "UpperWarningLimit": 120, "LowerCautionLimit": 90,
-              "LowerWarningLimit": 80, "Divisor": 1, "Name": "water_level", "Unit":"L"},
+              "LowerWarningLimit": -2.0, "Divisor": 100, "Name": "ppCO2", "Unit":"mmHg"},
+    "humidity": {"DisplayName": "Humidity", "Id": 45, "ParameterGroup": "L1", "NominalValue": 52,
+              "UpperCautionLimit": 61, "UpperWarningLimit": 70, "LowerCautionLimit": 50,
+              "LowerWarningLimit": 40, "Divisor": 1, "Name": "Humidity", "Unit":"L"},
     
-    "temperature": {"DisplayName": "Cabin_Temperature", "Id": 46, "ParameterGroup": "L1_Test", "NominalValue": 100,
-              "UpperCautionLimit": 79.0, "UpperWarningLimit": 87.7, "LowerCautionLimit": 68.0,
-              "LowerWarningLimit": 64.0, "Divisor": 1, "Name": "Cabin_Temperature", "Unit":"F"},
+    # "temperature": {"DisplayName": "Cabin_Temperature", "Id": 46, "ParameterGroup": "L1", "NominalValue": 100,
+    #           "UpperCautionLimit": 79.0, "UpperWarningLimit": 87.7, "LowerCautionLimit": 68.0,
+    #           "LowerWarningLimit": 64.0, "Divisor": 1, "Name": "Cabin Temperature", "Unit":"F"},
+    # "temperature": {"DisplayName": "Cabin_Temperature", "Id": 46, "ParameterGroup": "L1", "NominalValue": 100,
+    #           "UpperCautionLimit": 79.0, "UpperWarningLimit": 87.7, "LowerCautionLimit": 68.0,
+    #           "LowerWarningLimit": 64.0, "Divisor": 1, "Name": "Cabin Temperature", "Unit":"F"},
 }
 
 # Simulate over time
@@ -224,16 +228,29 @@ def post_json_to_url():
         # Read the JSON file
         with open(json_file_path, 'r') as file:
             json_data = json.load(file)  # Load JSON data from the file
+            
+        print(f"Sending request to: {url}")
 
         # Make the POST request
-        response = requests.post(url, json=json_data)
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(url, json=json_data, headers=headers, timeout=5)
+        # response = requests.post(url, json=json_data)
 
         # Print the response status and data
         if response.status_code == 200:
             print("Success:", response.json())
         else:
             print("Failed:", response.status_code)
-
+            # print(f"Response content: {response.text}")
+    # except requests.exceptions.ConnectionError:
+    #     print("Connection Error: Could not connect to the server. Is it running?")
+    #     return False
+    # except requests.exceptions.Timeout:
+    #     print("Timeout: The server took too long to respond.")
+    #     return False
+    # except json.JSONDecodeError:
+    #     print("Error: Invalid JSON data in the file.")
+    #     return False
     except KeyboardInterrupt:
         print("Stopped by user.")
     except Exception as e:

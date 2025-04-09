@@ -7,7 +7,8 @@ import time
 json_file_path = 'formatted_sim_data.json'
 
 # URL to post to
-url = 'https://daphne-at-lab.selva-research.com/api/at/receiveHeraFeed'
+# url = 'https://daphne-at-lab.selva-research.com/api/at/receiveHeraFeed'
+url = 'http://localhost:8000/api/at/receiveHeraFeed'
 
 def post_json_continuously():
     try:
