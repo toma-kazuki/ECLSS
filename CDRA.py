@@ -5,12 +5,13 @@ import matplotlib.pyplot as plt
 # Constants and initial setup
 
 # Simulation parameters
-SIM_DURATION_SEC = 1000
+SIM_DURATION_SEC = 10000
 TIME_STEP_SEC = 1
 TIME_END = SIM_DURATION_SEC  # Total simulation time in seconds
 DT = TIME_STEP_SEC           # Time step size in seconds
 
 # Environmental input levels
+M_CABIN = 100.0             # kg, dry air mass in the cabin
 MOISTURE_CONTENT_INIT = 0.015  # kg H2O/kg dry air (initial value)  # kg H2O/kg dry air
 CO2_CONTENT_INIT = 0.004  # kg CO2/kg dry air (initial value)  # kg CO2/kg dry air
 MOISTURE_INPUT_MEAN = 0.00005 * 30 
@@ -32,13 +33,17 @@ DESORPTION_MULTIPLIER = 1.05
 # Failure scenarios with activation flags and timing
 FAILURE_SCENARIO = {
     'filter_saturation': False,
-    'filter_saturation_start': None,  # disabled
-    'filter_saturation_end': None,    # disabled
-    'heater_failure': [],  # e.g., ['desiccant_1', 'sorbent_2']
-    'sensor_failure': [],  # list of failed sensors (not used yet)
+    'filter_saturation_start': 600,
+    'filter_saturation_end': TIME_END,
+    'heater_failure': [],
+    'sensor_failure': [],
     'valve_stuck': False,
-    'valve_stuck_start': 700,
-    'valve_stuck_end': TIME_END
+    'valve_stuck_start': TIME_END,
+    'valve_stuck_end': TIME_END,
+    'fan_degraded': False,              # NEW: Whether fan degradation is active
+    'fan_degraded_start': TIME_END,           # NEW: When fan degradation starts
+    'fan_degraded_end': TIME_END,        # NEW: When fan degradation ends
+    'degraded_flow_rate': 0.5            # NEW: Degraded flow rate (kg/s)
 }
 
 # System state class
@@ -74,87 +79,105 @@ class CDRAState:
 
 # Failure injection function
 def apply_failures(state: CDRAState):
+    # Existing failures
     if FAILURE_SCENARIO['filter_saturation_start'] is not None and \
        FAILURE_SCENARIO['filter_saturation_end'] is not None and \
        FAILURE_SCENARIO['filter_saturation_start'] <= state.time <= FAILURE_SCENARIO['filter_saturation_end']:
         FAILURE_SCENARIO['filter_saturation'] = True
     else:
         FAILURE_SCENARIO['filter_saturation'] = False
+    
+    if FAILURE_SCENARIO['filter_saturation']:
+        # Force saturation to full (1.0) for all filters
+        for component in state.saturation:
+            state.saturation[component] = 1.0
+            state.adsorption_eff[component] = BASE_ADSORPTION_EFF + MAX_ADSORPTION_EFF_INCREMENT * 1.0
 
     if FAILURE_SCENARIO['valve_stuck_start'] <= state.time <= FAILURE_SCENARIO['valve_stuck_end']:
         FAILURE_SCENARIO['valve_stuck'] = True
     else:
         FAILURE_SCENARIO['valve_stuck'] = False
-
+    
+    # --- Valve Stcuk Handling ---
     if FAILURE_SCENARIO['valve_stuck']:
-        state.valve_state['path_1_active'] = state.valve_state['path_1_active']  # freeze state
+        state.valve_state['path_1_active'] = state.valve_state['path_1_active']  # freeze valve
 
     for heater in FAILURE_SCENARIO['heater_failure']:
         state.heater_on[heater] = False
 
+    # --- NEW Fan Degradation Handling ---
+    if FAILURE_SCENARIO['fan_degraded_start'] <= state.time <= FAILURE_SCENARIO['fan_degraded_end']:
+        FAILURE_SCENARIO['fan_degraded'] = True
+    else:
+        FAILURE_SCENARIO['fan_degraded'] = False
+
+    if FAILURE_SCENARIO['fan_degraded']:
+        state.air_flow_rate = FAILURE_SCENARIO['degraded_flow_rate']
+    else:
+        state.air_flow_rate = AIR_FLOW_RATE  # restore nominal if no failure
+
 # Time step physics function
 def timestep(state: CDRAState):
-    co2_before = state.co2_content
-    
+    #co2_before = state.co2_content
+
     def update_filter(component):
         if state.heater_on[component]:
             state.saturation[component] = max(state.saturation[component] - REGENERATION_RATE_MULTIPLIER * DT / SATURATION_TIME_CONSTANT, 0.0)
         else:
             state.saturation[component] = min(state.saturation[component] + DT / SATURATION_TIME_CONSTANT, 1.0)
         state.adsorption_eff[component] = BASE_ADSORPTION_EFF + MAX_ADSORPTION_EFF_INCREMENT * (1 - state.saturation[component])
-    state.moisture_content += MOISTURE_INPUT_MEAN + np.random.normal(0, NOISE_SCALE)
-    state.co2_content += CO2_INPUT_MEAN + np.random.normal(0, NOISE_SCALE)
-
+    # Apply generation to cabin first
+    #state.moisture_content += MOISTURE_INPUT_MEAN + np.random.normal(0, NOISE_SCALE)
+    #state.co2_content += CO2_INPUT_MEAN + np.random.normal(0, NOISE_SCALE)
     apply_failures(state)
 
     # Update filters
-    
     update_filter('desiccant_1')
     update_filter('sorbent_2')
     update_filter('desiccant_3')
     update_filter('sorbent_4')
-
-    path = 'path_1_active' if state.valve_state['path_1_active'] else 'path_2_active'
-    active_path = 'path_1' if state.valve_state['path_1_active'] else 'path_2'
-
-    desorption_multiplier = DESORPTION_MULTIPLIER
-
-    if path == 'path_1_active':
-        if not state.heater_on['desiccant_1']:
-            state.moisture_content *= (1 - state.adsorption_eff['desiccant_1'])
-        else:
-            state.moisture_content *= desorption_multiplier
-
-        if not state.heater_on['sorbent_2']:
-            state.co2_content *= (1 - state.adsorption_eff['sorbent_2'])
-        else:
-            state.co2_content *= desorption_multiplier
-
+ 
+    # Get current efficiency
+    # Determine which path is active
+    if state.valve_state['path_1_active']:
+        eta_co2 = state.adsorption_eff['sorbent_2'] if not state.heater_on['sorbent_2'] else -DESORPTION_MULTIPLIER
     else:
-        if not state.heater_on['desiccant_3']:
-            state.moisture_content *= (1 - state.adsorption_eff['desiccant_3'])
-        else:
-            state.moisture_content *= desorption_multiplier
+        eta_co2 = state.adsorption_eff['sorbent_4'] if not state.heater_on['sorbent_4'] else -DESORPTION_MULTIPLIER
 
-        if not state.heater_on['sorbent_4']:
-            state.co2_content *= (1 - state.adsorption_eff['sorbent_4'])
-        else:
-            state.co2_content *= desorption_multiplier
+    # Apply efficiency to compute outlet CO2 concentration
+    C_in = state.co2_content
+    C_out = C_in * (1 - eta_co2) if eta_co2 >= 0 else C_in * eta_co2
 
-    
-    # calculate the co2 removal
-    co2_after = state.co2_content
-    removed = max(co2_before - co2_after, 0)
-    state.co2_removed_total += removed
-  
     for k in state.saturation:
         state.history['saturation'][k].append(state.saturation[k])
         state.history['adsorption_eff'][k].append(state.adsorption_eff[k])
-    state.history['co2_removed'].append(state.co2_removed_total)
+
+    return C_out, state.air_flow_rate
+
+    # Similar treatment can be done for moisture if needed
+
+    # calculate the co2 removal
+    # co2_after = state.co2_content
+    # removed = max(co2_before - co2_after, 0)
+    # state.co2_removed_total += removed
+
+    # for k in state.saturation:
+    #     state.history['saturation'][k].append(state.saturation[k])
+    #     state.history['adsorption_eff'][k].append(state.adsorption_eff[k])
+    # state.history['co2_removed'].append(state.co2_removed_total)
+
   
     #state.moisture_content = max(0, min(state.moisture_content, MOISTURE_MAX))
     #state.co2_content = max(0, min(state.co2_content, CO2_MAX))
 
+# New function to handle cabin concentration update
+def update_cabin_concentration(state: CDRAState, C_out: float, flow: float):
+    """
+    Updates the cabin CO2 concentration using two-space mixing model.
+    """
+    state.co2_content = ((1 - flow / M_CABIN) * state.co2_content +
+                         (flow / M_CABIN) * C_out +
+                         CO2_INPUT_MEAN / M_CABIN)
 # Control function
 def control(state: CDRAState):
     if not FAILURE_SCENARIO['valve_stuck'] and state.time % VALVE_SWITCH_INTERVAL == 0 and state.time != 0:
@@ -238,11 +261,21 @@ def main():
     state = CDRAState()
     while state.time <= TIME_END:
         control(state)
-        timestep(state)
+        
+
+        co2_before = state.co2_content
+        C_out, flow = timestep(state)
+        update_cabin_concentration(state, C_out, flow)
+
+        co2_after = state.co2_content
+        removed = max(co2_before - co2_after, 0)
+        state.co2_removed_total += removed
+
 
         state.history['time'].append(state.time)
         state.history['moisture_content'].append(state.moisture_content)
         state.history['co2_content'].append(state.co2_content)
+        state.history['co2_removed'].append(state.co2_removed_total)
         state.history['air_flow_rate'].append(state.air_flow_rate)
         state.history['desiccant_heaters'].append((state.heater_on['desiccant_1'], state.heater_on['desiccant_3']))
         state.history['sorbent_heaters'].append((state.heater_on['sorbent_2'], state.heater_on['sorbent_4']))
