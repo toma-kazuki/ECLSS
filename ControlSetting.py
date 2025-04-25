@@ -37,10 +37,11 @@ def check_limits_and_control(cabin, subsystems):
         subsystems["Sabatier"]["status"] = False
 
     # Water Recovery System
-    if cabin["wasted_water"]["storage"] > cabin["wasted_water"]["storage"]:
-        subsystems["WRS"]["status"] = True
-    else:
+    if cabin["wasted_water"]["storage"] < cabin["wasted_water"]["storage"]:
         subsystems["WRS"]["status"] = False
+    else:
+        subsystems["WRS"]["status"] = True
+        subsystems["WRS"]["water_process_input"] = cabin["wasted_water"]["input"]
 
 
     return subsystems, CONTROL_RANGES

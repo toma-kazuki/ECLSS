@@ -14,7 +14,9 @@ real_time_mode = False  # Set to False to run as fast as possible
 simulation_speed = 1.0  # 1.0 = real-time (1 second per step), 2.0 = 2x faster, etc.
 
 # Simulate over time
-time_steps = 6000
+SECONDS_PER_MIN = 60
+MIN_PER_HOUR = 60
+time_steps = SECONDS_PER_MIN * MIN_PER_HOUR * 1
 
 # File path to the JSON file
 json_file_path = 'temp.json'
@@ -115,7 +117,9 @@ def plot_result(data_history):
     time_steps = [entry["time_step"] for entry in data_history]
     ppO2_values = [entry["cabin"]["ppO2"] for entry in data_history]
     ppCO2_values = [entry["cabin"]["ppCO2"] for entry in data_history]
+    H2storage_values = [entry["cabin"]["H2storage"] for entry in data_history]
     water_tank_values = [entry["cabin"]["water_tank"] for entry in data_history]
+    wasted_water_values = [entry["cabin"]["wasted_water"]["storage"] for entry in data_history]
 
     # Extract subsystem status (convert True to 1, False to 0)
     OGS_status = [int(entry["subsystems"]["OGS"]["status"]) for entry in data_history]
@@ -142,7 +146,7 @@ def plot_result(data_history):
     plt.figure(figsize=(12, 8))
 
     # (1,1) Partial Pressure of O2
-    plt.subplot(3, 3, 1)
+    plt.subplot(2, 5, 1)
     plt.plot(time_steps, ppO2_values, label="ppO2 (kPa)")
     plt.plot(time_steps, control_ranges_ppO2_min, color="b", linestyle="--", label="Min Safe ppO2")
     plt.plot(time_steps, control_ranges_ppO2_max, color="b", linestyle="--", label="Max Safe ppO2")
@@ -154,7 +158,7 @@ def plot_result(data_history):
     plt.legend()
 
     # (1,2) Partial Pressure of CO2
-    plt.subplot(3, 3, 2)
+    plt.subplot(2, 5, 2)
     plt.plot(time_steps, ppCO2_values, label="ppCO2 (kPa)", color="orange")
     plt.plot(control_ranges_ppCO2_min, color="b", linestyle="--", label="Min Control ppCO2")
     plt.plot(control_ranges_ppCO2_max, color="b", linestyle="--", label="Max Control ppCO2")
@@ -166,8 +170,8 @@ def plot_result(data_history):
     plt.legend()
 
     # (1,3) Water Availability
-    plt.subplot(3, 3, 3)
-    plt.plot(time_steps, water_tank_values, label="Water Available (liters)", color="blue")
+    plt.subplot(2, 5, 3)
+    plt.plot(time_steps, water_tank_values, color="blue")
     plt.axhline(MONITOR_RANGES["water"]["min"], color="r", linestyle="--", label="Min Safe Water")
     plt.axhline(MONITOR_RANGES["water"]["max"], color="r", linestyle="--", label="Max Safe Water")
     plt.title("Water Availability")
@@ -175,29 +179,45 @@ def plot_result(data_history):
     plt.ylabel("Liters")
     plt.legend()
 
+    # (1,3) Wasted Water Storage
+    plt.subplot(2, 5, 4)
+    plt.plot(time_steps, wasted_water_values, color="blue")
+    plt.title("Wasted Water Storage")
+    plt.xlabel("Time Steps")
+    plt.ylabel("Liters")
+    plt.legend()
+
+    # (1,4) Hydrogen Availability
+    plt.subplot(2, 5, 5)
+    plt.plot(time_steps, H2storage_values, color="blue")
+    plt.title("H2 Availability")
+    plt.xlabel("Time Steps")
+    plt.ylabel("mols")
+    plt.legend()
+
     # (2,1) OGS Status
-    plt.subplot(3, 3, 4)
+    plt.subplot(2, 5, 6)
     plt.plot(time_steps, OGS_status)
     plt.title("OGS Status")
     plt.xlabel("Time Steps")
     plt.ylabel("Active (1) / Inactive (0)")
 
     # (2,2) CDRS Status
-    plt.subplot(3, 3, 5)
+    plt.subplot(2, 5, 7)
     plt.plot(time_steps, CDRS_status)
     plt.title("CDRS Status")
     plt.xlabel("Time Steps")
     plt.ylabel("Active (1) / Inactive (0)")
 
     # (2,3) WRS Status
-    plt.subplot(3, 3, 6)
+    plt.subplot(2, 5, 8)
     plt.plot(time_steps, WRS_status)
     plt.title("WRS Status")
     plt.xlabel("Time Steps")
     plt.ylabel("Active (1) / Inactive (0)")
 
     # (2,3) WRS Status
-    plt.subplot(3, 3, 9)
+    plt.subplot(2, 5, 9)
     plt.plot(time_steps, Sabatier_status)
     plt.title("Sabatier Status")
     plt.xlabel("Time Steps")
