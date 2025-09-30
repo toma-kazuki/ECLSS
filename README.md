@@ -1,6 +1,63 @@
-# ECLSS (Environmental Control and Life Support System) Simulation
+# CDRA Fault Diagnosis
 
-This repository contains a comprehensive CDRA (Carbon Dioxide Removal Assembly) simulation system with advanced similarity analysis capabilities for spacecraft fault diagnosis.
+**Initial Development of A Physics-Based Agent for Real-Time Collaborative Fault Diagnosis in Space Habitats**
+
+This repository contains a comprehensive CDRA (Carbon Dioxide Removal Assembly) simulation system with advanced similarity analysis capabilities for spacecraft fault diagnosis. The generated plots and analysis results are used in the **IEEE Aerospace Conference 2026** paper.
+
+## Abstract
+
+Planned human exploration missions to the Moon and Mars will require significant crew autonomy to handle long communication delays, particularly for urgent tasks such as diagnosing faults in the habitat. This paper presents the initial development of a physics-based diagnosis agent in space habitats and the preliminary simulation results of the case study of CO₂ removal systems. This research addresses the need for autonomous system fault management in future deep space missions and characterizes the performance of the physics-based diagnosis agent, in terms of accuracy and robustness to noise and to anomalies with similar signatures. The approach is meant to be used by a virtual assistant in an iterative, human-agent collaborative fault diagnosis process. The case study demonstrated explainable causal inference between subcomponent failure of CO₂ removal systems and the progression trend of partial pressure of CO₂ (ppCO₂) in cabin with the interpretable ranked similarity scores. The misclassification tendency and noise robustness was also shown.
+
+## Research Objectives
+
+The primary objectives of this research are:
+
+1. **Develop Physics-Based Diagnostic Agent**: Create an intuitive design of physics-based collaborative agent with systematic FDIR (Fault Detection, Isolation, and Recovery) support that is executable by commonly available programming.
+
+2. **Characterize Performance**: Evaluate the performance of the physics-based diagnosis agent in terms of:
+   - Accuracy in identifying different failure modes
+   - Robustness to sensor noise
+   - Handling of anomalies with similar signatures
+
+3. **Enable Collaborative Diagnosis**: Design the agent to work as a virtual assistant in an iterative, human-agent collaborative fault diagnosis process for deep space missions.
+
+4. **Provide Explainable Results**: Generate interpretable ranked similarity scores and causal inference between subcomponent failures and system behavior trends.
+
+## Quick Start
+
+### Prerequisites
+- Python 3.7+
+- Virtual environment (recommended)
+
+### Installation & Setup
+
+1. **Clone the repository**:
+   ```bash
+   git clone <repository-url>
+   cd cdra-fault-diagnosis
+   ```
+
+2. **Create and activate virtual environment**:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Run basic demos**:
+   ```bash
+   # Basic simulation and analysis
+   python data_analysis_demo.py
+   python plotting_demo.py
+   
+   # Generate paper figures
+   python paper_trend_generator.py
+   python paper_mc_evaluation.py
+   ```
 
 ## Project Structure
 
@@ -20,104 +77,11 @@ This repository contains a comprehensive CDRA (Carbon Dioxide Removal Assembly) 
 
 - **`data_analysis_demo.py`** - Data analysis and template building examples
 - **`plotting_demo.py`** - Comprehensive plotting capabilities showcase
-- **`mc_evaluation.py`** - Monte Carlo robustness evaluation for fault diagnosis
+- **`paper_mc_evaluation.py`** - Monte Carlo robustness evaluation for fault diagnosis (generates paper figures)
+- **`paper_trend_generator.py`** - Generates specific trend images for IEEE Aerospace Conference 2026 paper
 
 ### Configuration
 
 - **`requirements.txt`** - Python dependencies
 - **`venv/`** - Virtual environment (excluded from version control)
 
-## Features
-
-### Simulation Capabilities
-- 7 fault scenarios (Valve, Fan, Filter, and combinations)
-- Realistic CDRA physics modeling
-- Configurable severity levels and duration
-- Unit conversions (mmHg, kg/kg air, ppm, percent)
-
-### Similarity Analysis Methods
-- **MSE/MAE** - Mean Squared/Absolute Error
-- **Pearson/Spearman** - Linear and rank correlation
-- **DTW** - Dynamic Time Warping for time series alignment
-- **ARIMA** - Time series forecasting-based similarity
-- **FFT** - Frequency domain analysis
-
-### Visualization
-- CO2 concentration plots with detection thresholds
-- Component state analysis (saturation, efficiency, heaters)
-- System overview (4-panel comprehensive view)
-- Multi-scenario comparisons
-- Analysis summaries with key metrics
-
-## Usage
-
-### Basic Simulation
-```python
-from cdra_simulator import CDRASimulator
-
-simulator = CDRASimulator()
-telemetry_data = simulator.generate_telemetry_data(
-    scenario="filter saturation",
-    severity=0.5,
-    duration_seconds=1000,
-    baseline_co2_mmHg=3.0
-)
-
-# Plot results
-telemetry_data.plot_co2_concentration()
-```
-
-### Similarity Analysis
-```python
-from similarity_agent import SimilarityAgent
-
-agent = SimilarityAgent(method="MSE")
-results = agent.compare_multiple_simulations(
-    telemetry_data, 
-    simulation_scenarios,
-    segment_length=400,
-    find_best_alignment=True
-)
-ranking = agent.get_ranking(results)
-```
-
-### Monte Carlo Evaluation
-```python
-python MCevaluation.py
-```
-
-## Dependencies
-
-- numpy
-- matplotlib
-- scipy
-- scikit-learn
-- dtaidistance
-- statsmodels (optional, for ARIMA)
-
-## Installation
-
-1. Create virtual environment:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-3. Run demos:
-```bash
-python data_analysis_demo.py
-python plotting_demo.py
-python mc_evaluation.py
-```
-
-## Recent Updates
-
-- Integrated all similarity methods from individual modules into `SimilarityAgent`
-- Removed redundant files (`cdra_sim_adapter.py`, `CDRA.py`, `cdra_similarity_demo.py`)
-- Consolidated Similarity folder methods into main similarity agent
-- Streamlined project structure for better maintainability
