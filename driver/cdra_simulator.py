@@ -3,6 +3,7 @@ import math
 import random
 import matplotlib.pyplot as plt
 import numpy as np
+from color_scheme import get_color, get_line_style, get_scenario_color, get_color_by_index
 
 
 class CDRASimulator:
@@ -306,6 +307,7 @@ class CDRASimulator:
                 state.history['adsorption_eff'][k].append(state.adsorption_eff[k])
             state.history['time'].append(state.time)
             state.history['co2_content'].append(state.co2_content)
+            state.history['co2_output'].append(C_out)  # Store CO2 concentration out of CDRA
             state.history['air_flow_rate'].append(state.air_flow_rate)
             state.history['desiccant_heaters'].append((state.heater_on['desiccant_1'], state.heater_on['desiccant_3']))
             state.history['sorbent_heaters'].append((state.heater_on['sorbent_2'], state.heater_on['sorbent_4']))
@@ -560,6 +562,18 @@ class CDRATelemetryData:
         """
         return self.state.history['air_flow_rate'].copy()
     
+    def get_co2_output_series_mmhg(self) -> List[float]:
+        """
+        Get CO2 output concentration time series in mmHg units.
+        
+        Returns:
+            List of CO2 output concentrations in mmHg
+        """
+        if self.state is None:
+            return []
+        
+        return [self._kg_per_kg_air_to_mmhg(co2) for co2 in self.state.history['co2_output']]
+    
     def get_saturation_series(self, component: str) -> List[float]:
         """
         Get saturation time series for a specific component.
@@ -778,16 +792,16 @@ class CDRATelemetryData:
         time_series = self.get_time_series()
         
         plt.figure(figsize=figsize)
-        plt.plot(time_series, co2_series, linewidth=2, color='blue', label='CO2 Concentration')
+        plt.plot(time_series, co2_series, linewidth=2, color=get_color_by_index(0), label='CO2 Concentration')
         
         if show_detection:
-            plt.axhline(y=detection_threshold, color='red', linestyle='--', 
+            plt.axhline(y=detection_threshold, color=get_color('detection_threshold'), linestyle='--', 
                        linewidth=2, label=f'Detection Threshold ({detection_threshold} mmHg)')
             
             # Find and mark detection point
             detection_idx = self.find_detection_index(detection_threshold)
             if detection_idx >= 0:
-                plt.axvline(x=time_series[detection_idx], color='red', linestyle=':', 
+                plt.axvline(x=time_series[detection_idx], color=get_color('detection_line'), linestyle=':', 
                            alpha=0.7, label=f'Detection at t={time_series[detection_idx]:.0f}s')
         
         plt.xlabel('Time [s]', fontsize=12)
@@ -816,21 +830,21 @@ class CDRATelemetryData:
             
             # Plot saturation
             saturation = self.get_saturation_series(component)
-            ax.plot(time_series, saturation, linewidth=2, color='blue', label='Saturation')
+            ax.plot(time_series, saturation, linewidth=2, color=get_color_by_index(0), label='Saturation')
             
             # Plot efficiency on secondary y-axis
             ax2 = ax.twinx()
             efficiency = self.get_adsorption_efficiency_series(component)
-            ax2.plot(time_series, efficiency, linewidth=2, color='red', label='Efficiency')
+            ax2.plot(time_series, efficiency, linewidth=2, color=get_color_by_index(1), label='Efficiency')
             
             # Plot heater state
             heater_states = self.get_heater_states(component)
             ax.fill_between(time_series, 0, 1, where=heater_states, 
-                           alpha=0.3, color='orange', label='Heater ON')
+                           alpha=0.3, color=get_color_by_index(2), label='Heater ON')
             
             ax.set_xlabel('Time [s]')
-            ax.set_ylabel('Saturation', color='blue')
-            ax2.set_ylabel('Efficiency', color='red')
+            ax.set_ylabel('Saturation', color=get_color_by_index(0))
+            ax2.set_ylabel('Efficiency', color=get_color_by_index(1))
             ax.set_title(f'{component.replace("_", " ").title()}')
             ax.grid(True, alpha=0.7)
             
@@ -858,31 +872,30 @@ class CDRATelemetryData:
         fig, axes = plt.subplots(4, 1, figsize=figsize)
         
         # CO2 Concentration
-        axes[0].plot(time_series, co2_series, linewidth=2, color='blue')
+        axes[0].plot(time_series, co2_series, linewidth=2, color=get_color_by_index(0))
         axes[0].set_ylabel('CO2 [mmHg]')
         axes[0].set_title('CO2 Concentration')
         axes[0].grid(True, alpha=0.7)
         
         # Air Flow Rate
-        axes[1].plot(time_series, air_flow, linewidth=2, color='green')
+        axes[1].plot(time_series, air_flow, linewidth=2, color=get_color_by_index(1))
         axes[1].set_ylabel('Flow Rate [kg/s]')
         axes[1].set_title('Air Flow Rate')
         axes[1].grid(True, alpha=0.7)
         
         # Heater States
         components = ['desiccant_1', 'desiccant_3', 'sorbent_2', 'sorbent_4']
-        colors = ['red', 'blue', 'green', 'orange']
-        for i, (component, color) in enumerate(zip(components, colors)):
+        for i, component in enumerate(components):
             heater_states = self.get_heater_states(component)
             axes[2].plot(time_series, np.array(heater_states) + i*0.1, 
-                        linewidth=2, color=color, label=component.replace('_', ' ').title())
+                        linewidth=2, color=get_color_by_index(i), label=component.replace('_', ' ').title())
         axes[2].set_ylabel('Heater States')
         axes[2].set_title('Heater Status')
         axes[2].legend()
         axes[2].grid(True, alpha=0.7)
         
         # Active Path
-        axes[3].step(time_series, active_path, linewidth=2, color='purple', where='post')
+        axes[3].step(time_series, active_path, linewidth=2, color=get_color_by_index(4), where='post')
         axes[3].set_ylabel('Active Path')
         axes[3].set_xlabel('Time [s]')
         axes[3].set_title('Valve Path Selection')
@@ -908,9 +921,9 @@ class CDRATelemetryData:
         co2_series_2 = other_telemetry.get_co2_time_series_mmhg()
         
         plt.figure(figsize=figsize)
-        plt.plot(time_series, co2_series_1, linewidth=2, color='blue', 
+        plt.plot(time_series, co2_series_1, linewidth=2, color=get_color_by_index(0), 
                 label=f'{self.scenario} (Severity: {self.severity})')
-        plt.plot(time_series, co2_series_2, linewidth=2, color='red', 
+        plt.plot(time_series, co2_series_2, linewidth=2, color=get_color_by_index(1), 
                 label=f'{other_telemetry.scenario} (Severity: {other_telemetry.severity})')
         
         plt.xlabel('Time [s]', fontsize=12)
@@ -931,13 +944,12 @@ class CDRATelemetryData:
             figsize: Figure size (width, height)
         """
         time_series = self.get_time_series()
-        colors = plt.cm.tab10(np.linspace(0, 1, len(telemetry_list)))
         
         plt.figure(figsize=figsize)
         
         for i, telemetry in enumerate(telemetry_list):
             co2_series = telemetry.get_co2_time_series_mmhg()
-            plt.plot(time_series, co2_series, linewidth=2, color=colors[i],
+            plt.plot(time_series, co2_series, linewidth=2, color=get_color_by_index(i),
                     label=f'{telemetry.scenario} (Severity: {telemetry.severity})')
         
         plt.xlabel('Time [s]', fontsize=12)
@@ -967,15 +979,15 @@ class CDRATelemetryData:
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=figsize)
         
         # CO2 time series with annotations
-        ax1.plot(time_series, co2_series, linewidth=2, color='blue')
-        ax1.axhline(y=4.0, color='red', linestyle='--', alpha=0.7, label='Detection Threshold')
+        ax1.plot(time_series, co2_series, linewidth=2, color=get_color_by_index(0))
+        ax1.axhline(y=4.0, color=get_color('detection_threshold'), linestyle='--', alpha=0.7, label='Detection Threshold')
         
         if detection_idx >= 0:
-            ax1.axvline(x=time_series[detection_idx], color='red', linestyle=':', alpha=0.7)
+            ax1.axvline(x=time_series[detection_idx], color=get_color('detection_line'), linestyle=':', alpha=0.7)
             ax1.annotate(f'Detection at t={time_series[detection_idx]:.0f}s', 
                         xy=(time_series[detection_idx], co2_series[detection_idx]),
                         xytext=(10, 10), textcoords='offset points',
-                        bbox=dict(boxstyle='round,pad=0.3', facecolor='yellow', alpha=0.7),
+                        bbox=dict(boxstyle='round,pad=0.3', facecolor=get_color('detection_annotation'), alpha=0.7),
                         arrowprops=dict(arrowstyle='->', connectionstyle='arc3,rad=0'))
         
         ax1.set_xlabel('Time [s]')
@@ -987,7 +999,7 @@ class CDRATelemetryData:
         # Metrics bar chart
         metrics = ['Peak CO2', 'Final CO2', 'Average CO2']
         values = [peak_co2, final_co2, avg_co2]
-        colors = ['red', 'orange', 'green']
+        colors = [get_color_by_index(i) for i in range(len(metrics))]
         
         bars = ax2.bar(metrics, values, color=colors, alpha=0.7)
         ax2.set_ylabel('CO2 Concentration [mmHg]')
@@ -1036,6 +1048,7 @@ class CDRAState:
             'time': [],
             'moisture_content': [],
             'co2_content': [],
+            'co2_output': [],  # CO2 concentration out of CDRA
             'co2_removed': [],
             'air_flow_rate': [],
             'desiccant_heaters': [],

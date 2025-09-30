@@ -1,9 +1,20 @@
 #!/usr/bin/env python3
 """
-CDRA Simulator Plotting Demo
+CDRA SIMULATOR PLOTTING DEMO
+============================
 
-This script demonstrates the comprehensive plotting capabilities
-of the CDRATelemetryData class.
+PURPOSE: Demonstrate comprehensive plotting capabilities of CDRATelemetryData class
+OBJECTIVE: Showcase all available plotting features for development and exploration
+
+Features Demonstrated:
+- Basic CO2 concentration plots
+- Component state visualization
+- System overview plots
+- Scenario comparison plots
+- Analysis summary plots
+
+USAGE: Run to explore and test different plotting features
+OUTPUT: Interactive plots for analysis and development
 """
 import matplotlib.pyplot as plt
 

@@ -4,9 +4,15 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 from scipy.stats import pearsonr, spearmanr
 from dtaidistance import dtw
 from dtaidistance import dtw_visualisation as dtwvis
-from statsmodels.tsa.arima.model import ARIMA
+try:
+    from statsmodels.tsa.arima.model import ARIMA
+    ARIMA_AVAILABLE = True
+except ImportError:
+    ARIMA_AVAILABLE = False
+    print("Warning: statsmodels not available. ARIMA method will not work.")
 from typing import Dict, List, Tuple, Union, Optional
 import matplotlib.pyplot as plt
+from color_scheme import get_color, get_line_style
 
 
 class SimilarityAgent:
@@ -301,6 +307,15 @@ class SimilarityAgent:
         find_best_alignment: bool
     ) -> Dict:
         """Compute ARIMA-based similarity by fitting model on simulation and forecasting telemetry."""
+        if not ARIMA_AVAILABLE:
+            return {
+                'score': float("inf"),
+                'shift': 0,
+                'aligned_telemetry': telemetry_data[:segment_length],
+                'aligned_simulation': simulation_data[:segment_length],
+                'error': 'statsmodels not available'
+            }
+        
         try:
             if find_best_alignment:
                 best_score = float("inf")
@@ -465,18 +480,18 @@ class SimilarityAgent:
         
         # Plot original data
         time_series = np.arange(len(telemetry_data))
-        plt.plot(time_series, telemetry_data, label="Telemetry Data", linewidth=2, color='black')
+        plt.plot(time_series, telemetry_data, label="Telemetry Data", linewidth=2, color=get_color('telemetry_data'))
         
         # Plot aligned simulation data
         aligned_time = np.arange(result['shift'], result['shift'] + len(result['aligned_simulation']))
         plt.plot(aligned_time, result['aligned_simulation'], 
                 label=f"Simulation (shift={result['shift']})", 
-                linestyle="--", linewidth=2, color='red')
+                linestyle=get_line_style('dashed'), linewidth=2, color=get_color('simulation_data'))
         
         # Highlight the comparison segment
         segment_start = result['shift']
         segment_end = result['shift'] + len(result['aligned_simulation'])
-        plt.axvspan(segment_start, segment_end, alpha=0.2, color='yellow', 
+        plt.axvspan(segment_start, segment_end, alpha=0.2, color=get_color('comparison_segment'), 
                    label=f"Comparison Segment (Score: {result['score']:.4f})")
         
         plt.title(f"{title} - {self.method} Method\nRuntime: {result['runtime']}s", fontsize=16)

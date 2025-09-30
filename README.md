@@ -18,7 +18,7 @@ This repository contains a comprehensive CDRA (Carbon Dioxide Removal Assembly) 
 
 ### Demo Scripts
 
-- **`example_usage.py`** - Basic usage examples and demonstrations
+- **`data_analysis_demo.py`** - Data analysis and template building examples
 - **`plotting_demo.py`** - Comprehensive plotting capabilities showcase
 - **`mc_evaluation.py`** - Monte Carlo robustness evaluation for fault diagnosis
 
@@ -110,7 +110,7 @@ pip install -r requirements.txt
 
 3. Run demos:
 ```bash
-python example_usage.py
+python data_analysis_demo.py
 python plotting_demo.py
 python mc_evaluation.py
 ```

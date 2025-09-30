@@ -1,6 +1,20 @@
 #!/usr/bin/env python3
 """
-Example usage of the CDRASimulator class showing the streamlined workflow.
+CDRA DATA ANALYSIS DEMO
+=======================
+
+PURPOSE: Demonstrate data analysis and template building capabilities of CDRASimulator
+OBJECTIVE: Show how to extract, analyze, and manipulate telemetry data for research
+
+Key Features Demonstrated:
+- Template generation for different fault scenarios
+- Data analysis methods (detection, summary statistics)
+- Data manipulation (resampling, accessing different data series)
+- Telemetry data extraction and processing
+- Basic plotting as analysis examples
+
+USAGE: Run to learn data analysis workflows and template building
+OUTPUT: Console analysis results + some example plots
 """
 
 from cdra_simulator import CDRASimulator

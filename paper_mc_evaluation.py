@@ -13,8 +13,12 @@ import matplotlib.pyplot as plt
 import itertools
 import os
 from collections import defaultdict
-from similarity_agent import SimilarityAgent
-from cdra_simulator import CDRASimulator
+from driver.similarity_agent import SimilarityAgent
+from driver.cdra_simulator import CDRASimulator
+from color_scheme import (get_color, get_line_style, get_scenario_color, get_color_by_index)
+
+# Paper images directory
+PAPER_IMAGES_DIR = "/Users/tomakazuki/local/documents/research/paper/IEEEAeroConf2026/images"
 
 # =========================
 # Global configuration
@@ -136,17 +140,24 @@ def plot_sensitivity(noise_levels, hit1_per_noise, hit2_per_noise):
     """
     Overall (macro-averaged across scenarios) sensitivity curves.
     """
-    plt.figure(figsize=(7, 5))
-    plt.plot(noise_levels, hit1_per_noise, marker='o', label='Hit@1')
-    plt.plot(noise_levels, hit2_per_noise, marker='s', label='Hit@2')
+    apply_paper_style(plt)
+    plt.plot(noise_levels, hit1_per_noise, marker='o', label='Hit@1', 
+             color=get_color_by_index(0), linewidth=PAPER_LINE_WIDTH, 
+             markersize=PAPER_MARKER_SIZE)
+    plt.plot(noise_levels, hit2_per_noise, marker='s', label='Hit@2',
+             color=get_color_by_index(1), linewidth=PAPER_LINE_WIDTH, 
+             markersize=PAPER_MARKER_SIZE)
     plt.xlabel("Sensor noise σ")
     plt.ylabel("Performance")
-    plt.title("Sensitivity to Sensor Noise")
+    #plt.title("Sensitivity to Sensor Noise")
     plt.ylim(0.0, 1.05)
-    plt.grid(True, linestyle='--', alpha=0.5)
     plt.legend()
+    
+    # Save to paper images directory
+    plt.savefig(os.path.join(PAPER_IMAGES_DIR, "hits@k_overall.png"), dpi=300, bbox_inches='tight')
+    print(f"Plot saved: hits@k_overall.png")
+    plt.close()  # Close figure to free memory
     # plt.show()
-    print(f"Plot completed for: Sensitivity to Sensor Noise")
 
 def plot_sensitivity_per_scenario(noise_levels, hit1_by_scenario, hit2_by_scenario):
     """
@@ -155,32 +166,42 @@ def plot_sensitivity_per_scenario(noise_levels, hit1_by_scenario, hit2_by_scenar
     hit2_by_scenario: shape [n_noise, 7]
     """
     # Accuracy per scenario
-    plt.figure(figsize=(8, 6))
+    apply_paper_style(plt)
     for j, scenario in enumerate(SCENARIOS):
-        plt.plot(noise_levels, hit1_by_scenario[:, j], marker='o', label=scenario)
+        plt.plot(noise_levels, hit1_by_scenario[:, j], marker='o', label=scenario,
+                 color=get_color_by_index(j), linewidth=PAPER_LINE_WIDTH, 
+                 markersize=PAPER_MARKER_SIZE)
     plt.xlabel("Sensor noise σ")
     plt.ylabel("Hit@1")
-    plt.title("Hit@1 vs Noise by Scenario")
+    #plt.title("Hit@1 vs Noise by Scenario")
     plt.ylim(0.0, 1.05)
-    plt.grid(True, linestyle='--', alpha=0.5)
-    plt.legend(loc='best', fontsize=9)
+    plt.legend(loc='best')
+    
+    # Save to paper images directory
+    plt.savefig(os.path.join(PAPER_IMAGES_DIR, "hits@1_detail.png"), dpi=300, bbox_inches='tight')
+    print(f"Plot saved: hits@1_detail.png")
+    plt.close()  # Close figure to free memory
     # plt.show()
-    print(f"Plot completed for: Hit@1 vs Noise by Scenario")
 
     # Hit@2 per scenario
-    plt.figure(figsize=(8, 6))
+    apply_paper_style(plt)
     for j, scenario in enumerate(SCENARIOS):
-        plt.plot(noise_levels, hit2_by_scenario[:, j], marker='s', label=scenario)
+        plt.plot(noise_levels, hit2_by_scenario[:, j], marker='s', label=scenario,
+                 color=get_color_by_index(j), linewidth=PAPER_LINE_WIDTH, 
+                 markersize=PAPER_MARKER_SIZE)
     plt.xlabel("Sensor noise σ")
     plt.ylabel("Hit@2")
-    plt.title("Hit@2 vs Noise by Scenario")
+    #plt.title("Hit@2 vs Noise by Scenario")
     plt.ylim(0.0, 1.05)
-    plt.grid(True, linestyle='--', alpha=0.5)
-    plt.legend(loc='best', fontsize=9)
+    plt.legend(loc='best')
+    
+    # Save to paper images directory
+    plt.savefig(os.path.join(PAPER_IMAGES_DIR, "hits@2_detail.png"), dpi=300, bbox_inches='tight')
+    print(f"Plot saved: hits@2_detail.png")
+    plt.close()  # Close figure to free memory
     # plt.show()
-    print(f"Plot completed for: Hit@2 vs Noise by Scenario")
 
-def plot_confusion_matrix(conf_mat, class_names, title):
+def plot_confusion_matrix(conf_mat, class_names, title, noise_level=None):
     """
     Matplotlib-only confusion heatmap with integer annotations.
     conf_mat: 2D array (rows=true, cols=pred)
@@ -188,9 +209,10 @@ def plot_confusion_matrix(conf_mat, class_names, title):
     cm = conf_mat.astype(float)
     vmax = cm.max() if cm.max() > 0 else 1.0
 
-    plt.figure(figsize=(7.5, 6.0))
-    im = plt.imshow(cm, interpolation='nearest', aspect='auto')
-    plt.title(title)
+    apply_paper_style(plt)
+    # Use lukewarm color scheme between orange and blue with narrower scale
+    im = plt.imshow(cm, interpolation='nearest', aspect='auto', cmap='Greys', vmin=0, vmax=vmax)
+    #plt.title(title)
     plt.colorbar()
     tick_marks = np.arange(len(class_names))
     plt.xticks(tick_marks, class_names, rotation=45, ha='right')
@@ -202,14 +224,61 @@ def plot_confusion_matrix(conf_mat, class_names, title):
         for j in range(cm.shape[1]):
             val = int(conf_mat[i, j])
             color = 'white' if cm[i, j] > thresh else 'black'
-            plt.text(j, i, str(val), ha='center', va='center', color=color, fontsize=9)
+            plt.text(j, i, str(val), ha='center', va='center', color=color, 
+                    fontsize=PAPER_ANNOTATION_FONT)
 
     plt.ylabel('True Scenario')
     plt.xlabel('Predicted Scenario')
     plt.tight_layout()
+    
+    # Save to paper images directory with appropriate filename
+    if noise_level is not None:
+        if noise_level == 0.0:
+            filename = "confmatrix_noise_0.png"
+        elif noise_level == 9.0:  # 3*3
+            filename = "confmatrix_noise_1.png"
+        elif noise_level == 49.0:  # 7*7
+            filename = "confmatrix_noise_2.png"
+        else:
+            filename = f"confmatrix_noise_{noise_level}.png"
+        
+        plt.savefig(os.path.join(PAPER_IMAGES_DIR, filename), dpi=300, bbox_inches='tight')
+        print(f"Plot saved: {filename}")
+        plt.close()  # Close figure to free memory
+    
     # plt.show()
     print(f"Plot completed for: {title}")
 
+
+# Fixed constants for all paper plots
+PAPER_FIGSIZE = (20, 16)          # Figure size (width, height) in inches
+PAPER_TITLE_FONT = 16*3             # Title font size
+PAPER_FONT = 40             # Title font size
+PAPER_LABEL_FONT = 40             # Axis label font size
+PAPER_TICK_FONT = 40              # Tick label font size
+PAPER_LEGEND_FONT = 40            # Legend font size
+PAPER_ANNOTATION_FONT = 40        # Annotation font size
+PAPER_LINE_WIDTH = 4              # Line width
+PAPER_MARKER_SIZE = 20             # Marker size
+PAPER_GRID_ALPHA = 0.3*2            # Grid transparency
+PAPER_GRID_STYLE = '--'           # Grid line style
+PAPER_GRID_WIDTH = 0.5*2            # Grid line width
+
+def apply_paper_style(plt):
+    """Apply standardized paper styling to a matplotlib plot."""
+    plt.figure(figsize=PAPER_FIGSIZE)
+    plt.rcParams.update({
+        'font.size': PAPER_FONT,
+        'axes.titlesize': PAPER_TITLE_FONT,
+        'axes.labelsize': PAPER_LABEL_FONT,
+        'xtick.labelsize': PAPER_TICK_FONT,
+        'ytick.labelsize': PAPER_TICK_FONT,
+        'legend.fontsize': PAPER_LEGEND_FONT,
+        'figure.titlesize': PAPER_TITLE_FONT,
+    })
+    plt.grid(True, alpha=PAPER_GRID_ALPHA, 
+             linestyle=PAPER_GRID_STYLE, 
+             linewidth=PAPER_GRID_WIDTH)
 
 def main():
     templates = build_nominal_templates()
@@ -249,7 +318,7 @@ def main():
 
             # Plot confusion matrix for this noise level
             title = f"Confusion Matrix (sigma = {noise:.3f})"
-            plot_confusion_matrix(confusion, SCENARIOS, title)
+            plot_confusion_matrix(confusion, SCENARIOS, title, noise_level=noise)
         
         # Sensitivity plots
         hit1_by_scenario_all = np.vstack(hit1_by_scenario_all)
@@ -257,8 +326,9 @@ def main():
         # breakpoint()
         plot_sensitivity(NOISE_SIGMAS, hit1_overall, hit2_overall)
         plot_sensitivity_per_scenario(NOISE_SIGMAS, hit1_by_scenario_all, hit2_by_scenario_all)
-    plt.show()
-    print("\nDone.")
+    
+    print(f"\nAll images saved to: {PAPER_IMAGES_DIR}")
+    print("Done.")
 
 if __name__ == "__main__":
     main()
